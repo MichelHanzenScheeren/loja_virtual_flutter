@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/pages/myHomePage.dart';
+import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -7,24 +7,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lojinha do Mixéu',
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: ControllerPage(),
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 15, 15, 15), // Cinza escuro
+        scaffoldBackgroundColor:
+            Color.fromARGB(255, 15, 15, 15), // Cinza escuro
         primaryColor: Color.fromARGB(255, 35, 35, 35), // Cinza claro
         hintColor: Color.fromARGB(255, 230, 230, 230), // Branco neutro
         appBarTheme: AppBarTheme(
-          textTheme: TextTheme(
-            title: TextStyle(
-              color: Color.fromARGB(230, 230, 230, 230), // Branco neutro
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            )
-          )
-        ),
+            elevation: 0,
+            textTheme: TextTheme(
+                title: TextStyle(
+                    color: Color.fromARGB(230, 230, 230, 230), // Branco neutro
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))),
         iconTheme: IconThemeData(
           color: Color.fromARGB(230, 230, 230, 230), // Branco neutro
         ),
-
 
         accentColor: Colors.deepPurple, //???????
         textTheme: TextTheme(
