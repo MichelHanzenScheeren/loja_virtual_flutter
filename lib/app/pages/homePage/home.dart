@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -54,11 +56,21 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 } else {
-                  print(snapshot.data.documents.length);
-                  return SliverToBoxAdapter(
-                    child: Container(
-                      color: Colors.deepOrange,
-                    ),
+                  return SliverStaggeredGrid.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 1,
+                    staggeredTiles: snapshot.data.documents.map((document) {
+                      return StaggeredTile.count(
+                          document.data["x"], document.data["y"]);
+                    }).toList(),
+                    children: snapshot.data.documents.map((document) {
+                      return FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: document.data["image"],
+                          fit: BoxFit.cover,
+                      );
+                    }).toList(),
                   );
                 }
               },
