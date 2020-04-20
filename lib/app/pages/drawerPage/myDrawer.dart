@@ -3,6 +3,9 @@ import 'package:lojavirtualflutter/app/widgets/buildDegradeBack.dart';
 import 'package:lojavirtualflutter/app/widgets/buildDrawerButton.dart';
 
 class MyDrawer extends StatelessWidget {
+  final PageController pageController;
+  MyDrawer(this.pageController);
+
   final List<Color> colors = [
     Color.fromARGB(255, 40, 40, 40),
     Color.fromARGB(255, 30, 30, 30),
@@ -57,10 +60,10 @@ class MyDrawer extends StatelessWidget {
                 padding: EdgeInsets.only(top: 50),
                 child: Column(
                   children: <Widget>[
-                    DrawerButton(Icons.home, "Início"),
-                    DrawerButton(Icons.list, "Produtos"),
-                    DrawerButton(Icons.location_on, "Lojas"),
-                    DrawerButton(Icons.playlist_add_check, "Meus pedidos"),
+                    DrawerButton(Icons.home, "Início", pageController, 0),
+                    DrawerButton(Icons.list, "Produtos", pageController, 1),
+                    DrawerButton(Icons.location_on, "Lojas", pageController, 2),
+                    DrawerButton(Icons.playlist_add_check, "Meus pedidos", pageController, 3),
                   ],
                 ),
               ),

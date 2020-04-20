@@ -8,18 +8,18 @@ class ControllerPage extends StatefulWidget {
 }
 
 class _ControllerPageState extends State<ControllerPage> {
-  final _pageController = PageController();
+  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return PageView(
-      controller: _pageController,
+      controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
         Scaffold(
           body: Home(),
-          drawer: MyDrawer(),
-        )
+          drawer: MyDrawer(pageController),
+        ),
       ],
     );
   }
