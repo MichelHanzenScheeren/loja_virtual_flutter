@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/pages/drawerPage/myDrawer.dart';
 import 'package:lojavirtualflutter/app/pages/homePage/home.dart';
 
 class ControllerPage extends StatefulWidget {
@@ -15,7 +16,10 @@ class _ControllerPageState extends State<ControllerPage> {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Home(),
+        Scaffold(
+          body: Home(),
+          drawer: MyDrawer(),
+        )
       ],
     );
   }

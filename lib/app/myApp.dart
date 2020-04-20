@@ -10,32 +10,45 @@ class MyApp extends StatelessWidget {
       home: ControllerPage(),
       theme: ThemeData(
         scaffoldBackgroundColor:
-            Color.fromARGB(255, 15, 15, 15), // Cinza escuro
-        primaryColor: Color.fromARGB(255, 35, 35, 35), // Cinza claro
-        hintColor: Color.fromARGB(255, 230, 230, 230), // Branco neutro
+            Color.fromARGB(255, 15, 15, 15),
+        primaryColor: Color.fromARGB(255, 35, 35, 35),
+        hintColor: Color.fromARGB(255, 230, 230, 230),
         appBarTheme: AppBarTheme(
             elevation: 0,
             textTheme: TextTheme(
                 title: TextStyle(
-                    color: Color.fromARGB(230, 230, 230, 230), // Branco neutro
+                    color: Color.fromARGB(230, 230, 230, 230),
                     fontSize: 20,
                     fontWeight: FontWeight.bold))),
         iconTheme: IconThemeData(
-          color: Color.fromARGB(230, 230, 230, 230), // Branco neutro
+          color: Color.fromARGB(230, 230, 230, 230),
+          size: 32,
         ),
-
-        accentColor: Colors.deepPurple, //???????
         textTheme: TextTheme(
-          body1: TextStyle(color: Colors.red), // ???????
-          body2: TextStyle(color: Colors.red), // ???????
-          display1: TextStyle(color: Colors.red), // ???????
-          title: TextStyle(color: Colors.red), // ???????
-          subtitle: TextStyle(color: Colors.red), // ???????
-          button: TextStyle(color: Colors.red), // ???????
-          caption: TextStyle(color: Colors.red), // ???????
-          headline: TextStyle(color: Colors.red), // ???????
-          subhead: TextStyle(color: Colors.red), // ???????
+          title: TextStyle(
+            color: Color.fromARGB(240, 230, 230, 230),
+            fontSize: 36,
+            fontWeight: FontWeight.bold,
+          ),
+          body1: TextStyle(
+            color: Color.fromARGB(220, 220, 220, 220),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          body2: TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 18,
+          ),
+
+
+          display1: TextStyle(color: Colors.red),
+          subtitle: TextStyle(color: Colors.red),
+          button: TextStyle(color: Colors.red),
+          caption: TextStyle(color: Colors.red),
+          headline: TextStyle(color: Colors.red),
+          subhead: TextStyle(color: Colors.red),
         ),
+        accentColor: Colors.deepPurple, //???????
       ),
     );
   }

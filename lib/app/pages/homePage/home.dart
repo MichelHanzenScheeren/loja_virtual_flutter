@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lojavirtualflutter/app/widgets/buildDegradeBack.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class Home extends StatefulWidget {
@@ -9,23 +10,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Widget buildBodyBack() => Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 15, 15, 15),
-            Color.fromARGB(255, 30, 30, 30),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        )),
-      );
+  final List<Color> colors = [
+    Color.fromARGB(255, 15, 15, 15),
+    Color.fromARGB(255, 30, 30, 30)
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        buildBodyBack(),
+        DegradeBack(colors, Alignment.topLeft, Alignment.bottomRight),
         CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
@@ -66,9 +60,9 @@ class _HomeState extends State<Home> {
                     }).toList(),
                     children: snapshot.data.documents.map((document) {
                       return FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: document.data["image"],
-                          fit: BoxFit.cover,
+                        placeholder: kTransparentImage,
+                        image: document.data["image"],
+                        fit: BoxFit.cover,
                       );
                     }).toList(),
                   );
