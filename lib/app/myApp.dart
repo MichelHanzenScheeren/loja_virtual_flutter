@@ -9,8 +9,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: ControllerPage(),
       theme: ThemeData(
-        scaffoldBackgroundColor:
-            Color.fromARGB(255, 15, 15, 15),
         primaryColor: Color.fromARGB(255, 35, 35, 35),
         hintColor: Color.fromARGB(255, 230, 230, 230),
         appBarTheme: AppBarTheme(
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           title: TextStyle(
-            color: Color.fromARGB(240, 230, 230, 230),
+            color: Color.fromARGB(240, 240, 240, 240),
             fontSize: 36,
             fontWeight: FontWeight.bold,
           ),

@@ -20,57 +20,61 @@ class _HomeState extends State<Home> {
     return Stack(
       children: <Widget>[
         DegradeBack(colors, Alignment.topLeft, Alignment.bottomRight),
-        CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              flexibleSpace: FlexibleSpaceBar(
-                title: const Text("Novidades"),
-                centerTitle: true,
+        Container(
+          color: Color.fromARGB(240, 30, 30, 30),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: const Text("Novidades"),
+                  centerTitle: true,
+                ),
               ),
-            ),
-            FutureBuilder<QuerySnapshot>(
-              future: Firestore.instance
-                  .collection("home")
-                  .orderBy("pos")
-                  .getDocuments(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return SliverToBoxAdapter(
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              FutureBuilder<QuerySnapshot>(
+                future: Firestore.instance
+                    .collection("home")
+                    .orderBy("pos")
+                    .getDocuments(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return SliverToBoxAdapter(
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
                       ),
-                    ),
-                  );
-                } else {
-                  return SliverStaggeredGrid.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 1,
-                    staggeredTiles: snapshot.data.documents.map((document) {
-                      return StaggeredTile.count(
-                          document.data["x"], document.data["y"]);
-                    }).toList(),
-                    children: snapshot.data.documents.map((document) {
-                      return FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: document.data["image"],
-                        fit: BoxFit.cover,
-                      );
-                    }).toList(),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+                    );
+                  } else {
+                    return SliverStaggeredGrid.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                      staggeredTiles: snapshot.data.documents.map((document) {
+                        return StaggeredTile.count(
+                            document.data["x"], document.data["y"]);
+                      }).toList(),
+                      children: snapshot.data.documents.map((document) {
+                        return FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: document.data["image"],
+                          fit: BoxFit.cover,
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
