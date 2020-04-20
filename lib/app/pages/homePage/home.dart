@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:lojavirtualflutter/app/widgets/buildDegradeBack.dart';
+import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:lojavirtualflutter/app/controllers/database.dart';
+import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -34,34 +35,23 @@ class _HomeState extends State<Home> {
                   centerTitle: true,
                 ),
               ),
-              FutureBuilder<QuerySnapshot>(
-                future: Firestore.instance
-                    .collection("home")
-                    .orderBy("pos")
-                    .getDocuments(),
+              FutureBuilder<List>(
+                future: Database.instance.getHomeProducts(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return SliverToBoxAdapter(
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      ),
+                      child: WaitingWidget(),
                     );
                   } else {
                     return SliverStaggeredGrid.count(
                       crossAxisCount: 2,
                       mainAxisSpacing: 1,
                       crossAxisSpacing: 1,
-                      staggeredTiles: snapshot.data.documents.map((document) {
+                      staggeredTiles: snapshot.data.map((document) {
                         return StaggeredTile.count(
                             document.data["x"], document.data["y"]);
                       }).toList(),
-                      children: snapshot.data.documents.map((document) {
+                      children: snapshot.data.map((document) {
                         return FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
                           image: document.data["image"],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/pages/drawerPage/myDrawer.dart';
 import 'package:lojavirtualflutter/app/pages/homePage/home.dart';
+import 'package:lojavirtualflutter/app/pages/productsPage/products.dart';
 
 class ControllerPage extends StatefulWidget {
   @override
@@ -19,6 +20,14 @@ class _ControllerPageState extends State<ControllerPage> {
         Scaffold(
           body: Home(),
           drawer: MyDrawer(pageController),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Produtos", style: Theme.of(context).textTheme.subtitle,),
+            centerTitle: true,
+          ),
+          drawer: MyDrawer(pageController),
+          body: Products(),
         ),
       ],
     );

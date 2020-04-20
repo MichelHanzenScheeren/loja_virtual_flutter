@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/widgets/buildDegradeBack.dart';
-import 'package:lojavirtualflutter/app/widgets/buildDrawerButton.dart';
+import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
+import 'package:lojavirtualflutter/app/widgets/drawerButton.dart';
 
 class MyDrawer extends StatelessWidget {
   final PageController pageController;
