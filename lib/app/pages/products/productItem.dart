@@ -50,7 +50,7 @@ class ProductItem extends StatelessWidget {
                 Text(
                   "R\$${product.price.toStringAsFixed(2)}",
                   style: Theme.of(context).textTheme.display2,
-                )
+                ),
               ],
             ),
           ),
@@ -60,6 +60,38 @@ class ProductItem extends StatelessWidget {
   }
 
   Widget listItem(BuildContext context) {
-    return Container();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Flexible(
+          flex: 1,
+          child: Image.network(
+            product.images[0],
+            fit: BoxFit.cover,
+            height: 250,
+          ),
+        ),
+        Flexible(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    product.title,
+                    style: Theme.of(context).textTheme.body1,
+                  ),
+                  Text(
+                    "R\$${product.price.toStringAsFixed(2)}",
+                    style: Theme.of(context).textTheme.body2,
+                  ),
+                ],
+              )
+            )),
+      ],
+    );
   }
 }

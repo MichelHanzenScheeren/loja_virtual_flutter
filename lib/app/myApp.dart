@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
           ),
           body1: TextStyle(
             color: Color.fromARGB(220, 220, 220, 220),
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
           body2: TextStyle(
             color: Colors.blueAccent,
-            fontSize: 20,
+            fontSize: 22,
           ),
           subhead: TextStyle(
             color: Color.fromARGB(220, 220, 220, 220),

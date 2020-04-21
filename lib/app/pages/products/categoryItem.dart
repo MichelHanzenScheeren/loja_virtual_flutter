@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/pages/products/productsList.dart';
+import 'package:lojavirtualflutter/app/pages/products/products.dart';
 
 class CategoryButton extends StatelessWidget {
   final category;

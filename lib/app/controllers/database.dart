@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lojavirtualflutter/app/models/product.dart';
 
 class Database {
   static final Database instance = Database.internal();
@@ -21,12 +22,14 @@ class Database {
     return query.documents;
   }
 
-  Future<List> getProductsList(String category) async {
+  Future<List<Product>> getProductsList(String category) async {
     QuerySnapshot query = await Firestore.instance
         .collection("products")
         .document(category)
         .collection("items")
         .getDocuments();
-    return query.documents;
+    return query.documents.map((product) {
+      return Product.fromMap(product.documentID, product);
+    }).toList();
   }
 }

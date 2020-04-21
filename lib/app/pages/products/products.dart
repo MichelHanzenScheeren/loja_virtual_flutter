@@ -27,7 +27,7 @@ class ProductsList extends StatelessWidget {
             ],
           ),
         ),
-        body: FutureBuilder<List>(
+        body: FutureBuilder<List<Product>>(
           future: Database.instance.getProductsList(category["id"]),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -41,7 +41,7 @@ class ProductsList extends StatelessWidget {
     );
   }
 
-  Widget buildTabs(List data) {
+  Widget buildTabs(List<Product> data) {
     return TabBarView(
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
@@ -51,27 +51,27 @@ class ProductsList extends StatelessWidget {
     );
   }
 
-  Widget gridTab(List data) {
+  Widget gridTab(List<Product> data) {
     return GridView.builder(
         padding: EdgeInsets.all(5),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 4,
           crossAxisSpacing: 4,
-          childAspectRatio: 0.7, //relação largura/altura de cada item
+          childAspectRatio: 0.65, //relação largura/altura de cada item
         ),
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return ProductItem("grid", Product.fromMap(data[index]));
+          return ProductItem("grid", data[index]);
         });
   }
 
-  Widget listTab(List data) {
+  Widget listTab(List<Product> data) {
     return ListView.builder(
-      padding: EdgeInsets.all(5),
-      itemCount: data.length,
+        padding: EdgeInsets.all(5),
+        itemCount: data.length,
         itemBuilder: (context, index) {
-          return ProductItem("list", Product.fromMap(data[index]));
+          return ProductItem("list", data[index]);
         }
     );
   }

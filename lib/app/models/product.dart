@@ -9,8 +9,8 @@ class Product {
   List images;
   List colors;
 
-  Product.fromMap(DocumentSnapshot data) {
-    id = data["id"];
+  Product.fromMap(String idAux, DocumentSnapshot data) {
+    id = idAux;
     title = data["title"];
     description = data["description"];
     price = data["price"] + 0.0;
