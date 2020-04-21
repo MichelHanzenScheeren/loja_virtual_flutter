@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class DrawerButton extends StatelessWidget {
+class DrawerItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final PageController pageController;
   final int page;
-  DrawerButton(this.icon, this.text, this.pageController, this.page);
+  DrawerItem(this.icon, this.text, this.pageController, this.page);
 
   @override
   Widget build(BuildContext context) {

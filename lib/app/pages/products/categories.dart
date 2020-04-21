@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
-import 'package:lojavirtualflutter/app/widgets/categoryButton.dart';
+import 'package:lojavirtualflutter/app/pages/products/categoryItem.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 
-class Products extends StatelessWidget {
+class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(

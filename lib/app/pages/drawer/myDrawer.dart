@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/pages/drawer/drawerItem.dart';
 import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
-import 'package:lojavirtualflutter/app/widgets/drawerButton.dart';
 
 class MyDrawer extends StatelessWidget {
   final PageController pageController;
@@ -60,10 +60,10 @@ class MyDrawer extends StatelessWidget {
                 padding: EdgeInsets.only(top: 50),
                 child: Column(
                   children: <Widget>[
-                    DrawerButton(Icons.home, "Início", pageController, 0),
-                    DrawerButton(Icons.list, "Produtos", pageController, 1),
-                    DrawerButton(Icons.location_on, "Lojas", pageController, 2),
-                    DrawerButton(Icons.playlist_add_check, "Meus pedidos", pageController, 3),
+                    DrawerItem(Icons.home, "Início", pageController, 0),
+                    DrawerItem(Icons.list, "Produtos", pageController, 1),
+                    DrawerItem(Icons.location_on, "Lojas", pageController, 2),
+                    DrawerItem(Icons.playlist_add_check, "Meus pedidos", pageController, 3),
                   ],
                 ),
               ),

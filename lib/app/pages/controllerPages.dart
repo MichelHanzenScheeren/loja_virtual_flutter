@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/pages/drawerPage/myDrawer.dart';
-import 'package:lojavirtualflutter/app/pages/homePage/home.dart';
-import 'package:lojavirtualflutter/app/pages/productsPage/products.dart';
+import 'package:lojavirtualflutter/app/pages/drawer/myDrawer.dart';
+import 'package:lojavirtualflutter/app/pages/home/home.dart';
+import 'package:lojavirtualflutter/app/pages/products/categories.dart';
 
 class ControllerPage extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _ControllerPageState extends State<ControllerPage> {
             centerTitle: true,
           ),
           drawer: MyDrawer(pageController),
-          body: Products(),
+          body: Categories(),
         ),
       ],
     );

@@ -14,10 +14,19 @@ class Database {
     return query.documents;
   }
 
-  Future<List<DocumentSnapshot>> getProductsCategories() async {
+  Future<List> getProductsCategories() async {
     QuerySnapshot query =
         await Firestore.instance.collection("products").getDocuments();
 
+    return query.documents;
+  }
+
+  Future<List> getProductsList(String category) async {
+    QuerySnapshot query = await Firestore.instance
+        .collection("products")
+        .document(category)
+        .collection("items")
+        .getDocuments();
     return query.documents;
   }
 }

@@ -47,9 +47,18 @@ class MyApp extends StatelessWidget {
             color: Color.fromARGB(220, 220, 220, 220),
             fontSize: 25,
           ),
+          display1: TextStyle(
+            color: Color.fromARGB(220, 220, 220, 220),
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+          display2: TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
 
 
-          display1: TextStyle(color: Colors.yellow),
           button: TextStyle(color: Colors.yellow),
           caption: TextStyle(color: Colors.yellow),
           headline: TextStyle(color: Colors.yellow),
