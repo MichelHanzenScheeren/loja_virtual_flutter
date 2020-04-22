@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: const Text("Novidades"),
+                  title: Text("Novidades", style: Theme.of(context).textTheme.subtitle,),
                   centerTitle: true,
                 ),
               ),
