@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       home: ControllerPage(),
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromARGB(240, 30, 30, 30),
-        primaryColor: Color.fromARGB(255, 35, 35, 35),
+        primaryColor: Color.fromARGB(255, 50, 50, 50),
         hintColor: Color.fromARGB(255, 230, 230, 230),
         appBarTheme: AppBarTheme(
             elevation: 0,
@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Color.fromARGB(230, 230, 230, 230),
           size: 32,
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blueAccent,
+          disabledColor: Color.fromARGB(255, 50, 50, 50),
         ),
         textTheme: TextTheme(
           title: TextStyle(
@@ -49,12 +53,12 @@ class MyApp extends StatelessWidget {
           ),
           display1: TextStyle(
             color: Color.fromARGB(220, 220, 220, 220),
-            fontSize: 17,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
           display2: TextStyle(
             color: Colors.blueAccent,
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
 
@@ -62,7 +66,6 @@ class MyApp extends StatelessWidget {
           button: TextStyle(color: Colors.yellow),
           caption: TextStyle(color: Colors.yellow),
           headline: TextStyle(color: Colors.yellow),
-
         ),
         accentColor: Colors.deepPurple, //???????
       ),
