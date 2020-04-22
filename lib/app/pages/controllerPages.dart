@@ -23,7 +23,8 @@ class _ControllerPageState extends State<ControllerPage> {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Produtos", style: Theme.of(context).textTheme.subtitle,),
+            title:
+                Text("Produtos", style: Theme.of(context).textTheme.subtitle),
             centerTitle: true,
           ),
           drawer: MyDrawer(pageController),
