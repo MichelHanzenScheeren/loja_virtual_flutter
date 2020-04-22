@@ -5,12 +5,21 @@ class MyTextFormField extends StatelessWidget {
   final bool obscure;
   final TextInputType type;
   final TextStyle style;
-  MyTextFormField(this.text, this.style,
-      {this.obscure: false, this.type: TextInputType.text});
+  final Function validator;
+  final TextEditingController controller;
+  MyTextFormField(
+      {this.text: "",
+      this.style,
+      this.obscure: false,
+      this.type: TextInputType.text,
+      this.validator,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: validator,
+      controller: controller,
       obscureText: obscure,
       keyboardType: type,
       style: style.copyWith(fontWeight: FontWeight.bold),
@@ -24,6 +33,14 @@ class MyTextFormField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(32.0),
           borderSide: BorderSide(color: Colors.grey[100]),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: Colors.red),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(color: Colors.red),
         ),
       ),
     );

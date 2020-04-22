@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/pages/drawer/drawerItem.dart';
-import 'package:lojavirtualflutter/app/pages/login/login.dart';
+import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -46,8 +46,8 @@ class MyDrawer extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Login()));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Login()));
                             },
                             child: Text(
                               "Entre ou cadastre-se >",
@@ -67,11 +67,11 @@ class MyDrawer extends StatelessWidget {
                     DrawerItem(Icons.home, "Início", pageController, 0),
                     DrawerItem(Icons.list, "Produtos", pageController, 1),
                     DrawerItem(Icons.location_on, "Lojas", pageController, 2),
-                    DrawerItem(Icons.playlist_add_check, "Meus pedidos", pageController, 3),
+                    DrawerItem(Icons.playlist_add_check, "Meus pedidos",
+                        pageController, 3),
                   ],
                 ),
               ),
-
             ],
           ),
         ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MyLoginButton extends StatelessWidget {
+class MyOkButton extends StatelessWidget {
+  final String text;
   final TextStyle style;
-  MyLoginButton(this.style);
+  final Function onTap;
+  MyOkButton(this.text, this.style, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,9 @@ class MyLoginButton extends StatelessWidget {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: onTap,
         child: Text(
-          "Entrar",
+          text,
           textAlign: TextAlign.center,
           style: style.copyWith(fontWeight: FontWeight.bold, fontSize: 24),
         ),

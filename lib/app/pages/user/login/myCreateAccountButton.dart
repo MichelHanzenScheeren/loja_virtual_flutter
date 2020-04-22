@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/pages/user/createAccount/createAccount.dart';
 
 class MyCreateAccountButton extends StatelessWidget {
   final TextStyle style;
@@ -7,6 +8,10 @@ class MyCreateAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => CreateAccount()));
+      },
       child: Column(
         children: <Widget>[
           Text(
