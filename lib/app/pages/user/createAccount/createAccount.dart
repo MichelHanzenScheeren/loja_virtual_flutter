@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/user/commonWidgets/myOkButton.dart';
 import 'package:lojavirtualflutter/app/pages/user/commonWidgets/myTextFormField.dart';
 import 'package:lojavirtualflutter/app/pages/user/createAccount/myUserTerms.dart';
 import 'package:lojavirtualflutter/app/pages/user/validators.dart';
+import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CreateAccount extends StatelessWidget {
   final TextStyle style = TextStyle(
@@ -18,14 +21,8 @@ class CreateAccount extends StatelessWidget {
       return "A senha deve ter pelo menos 8 caracters.";
     } else if (text != passwordController.text) {
       return "As senhas não são iguais!";
-    }
-    else {
+    } else {
       return null;
-    }
-  }
-
-  void doCreateAccount() {
-    if(formKey.currentState.validate()) {
     }
   }
 
@@ -35,59 +32,70 @@ class CreateAccount extends StatelessWidget {
       body: Center(
         child: Container(
           color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 15.0),
-                    MyTextFormField(
-                      text: "Nome:",
-                      style: style,
-                      validator: Validator.basicValidator,
-                    ),
-                    SizedBox(height: 15.0),
-                    MyTextFormField(
-                      text: "Sobrenome:",
-                      style: style,
-                      validator: Validator.basicValidator,
-                    ),
-                    SizedBox(height: 15.0),
-                    MyTextFormField(
-                      text: "Email:",
-                      style: style,
-                      validator: Validator.emailValidator,
-                      type: TextInputType.emailAddress,
-                    ),
-                    SizedBox(height: 15.0),
-                    MyTextFormField(
-                      text: "Senha:",
-                      style: style,
-                      validator: Validator.passwordValidator,
-                      obscure: true,
-                      controller: passwordController,
-                    ),
-                    SizedBox(height: 15.0),
-                    MyTextFormField(
-                      text: "Confirme sua senha:",
-                      style: style,
-                      validator: confirmPasswordValidator,
-                      obscure: true,
-                    ),
-                    SizedBox(height: 20.0),
-                    MyUserTerms(style),
-                    SizedBox(height: 20.0),
-                    MyOkButton("Criar conta", style, doCreateAccount),
-                    SizedBox(height: 30.0),
-                  ],
+          padding: const EdgeInsets.all(30.0),
+          child: ScopedModelDescendant<User>(
+            builder: (context, child, model) {
+              void doCreateAccount() {
+                if (formKey.currentState.validate()) {
+                  model.logIn();
+                }
+              }
+
+              if(model.isLoading)
+                return WaitingWidget(width: 50, height: 50);
+
+              return Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 15.0),
+                      MyTextFormField(
+                        text: "Nome:",
+                        style: style,
+                        validator: Validator.basicValidator,
+                      ),
+                      SizedBox(height: 15.0),
+                      MyTextFormField(
+                        text: "Sobrenome:",
+                        style: style,
+                        validator: Validator.basicValidator,
+                      ),
+                      SizedBox(height: 15.0),
+                      MyTextFormField(
+                        text: "Email:",
+                        style: style,
+                        validator: Validator.emailValidator,
+                        type: TextInputType.emailAddress,
+                      ),
+                      SizedBox(height: 15.0),
+                      MyTextFormField(
+                        text: "Senha:",
+                        style: style,
+                        validator: Validator.passwordValidator,
+                        obscure: true,
+                        controller: passwordController,
+                      ),
+                      SizedBox(height: 15.0),
+                      MyTextFormField(
+                        text: "Confirme sua senha:",
+                        style: style,
+                        validator: confirmPasswordValidator,
+                        obscure: true,
+                      ),
+                      SizedBox(height: 20.0),
+                      MyUserTerms(style),
+                      SizedBox(height: 20.0),
+                      MyOkButton("Criar conta", style, doCreateAccount),
+                      SizedBox(height: 30.0),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ),
+              );
+            },
+          )
         ),
       ),
     );

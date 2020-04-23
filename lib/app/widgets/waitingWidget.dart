@@ -9,8 +9,8 @@ class WaitingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 150,
-        width: 150,
+        height: height,
+        width: width,
         child: CircularProgressIndicator(
           valueColor:
           AlwaysStoppedAnimation<Color>(Colors.white),

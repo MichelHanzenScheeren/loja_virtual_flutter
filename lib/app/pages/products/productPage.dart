@@ -13,10 +13,18 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   final Product product;
   _ProductPageState(this.product);
-  String selectedColor = "";
+
+  String selectedColor;
+
+  void initColor() {
+    if(selectedColor == null) {
+      selectedColor = product.colors[0];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    initColor();
     final Color primary = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBar(
@@ -58,12 +66,12 @@ class _ProductPageState extends State<ProductPage> {
                   alignment: Alignment.center,
                   child: Text(
                     "R\$ ${product.price}",
-                    style: TextStyle(fontSize: 25, color: Colors.blueAccent),
+                    style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                   ),
                 ),
                 Divider(color: Colors.grey[800]),
                 Text(
-                  "Cores disponíveis:",
+                  "Cor do produto:",
                   style: Theme.of(context).textTheme.display1,
                 ),
                 SizedBox(
@@ -85,20 +93,17 @@ class _ProductPageState extends State<ProductPage> {
                         child: Container(
                           padding: EdgeInsets.only(top: 5, bottom: 5),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
+                            color: selectedColor == color ? Colors.indigoAccent : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: selectedColor == color
-                                    ? Colors.blueAccent
-                                    : Colors.grey[500],
+                                color: Colors.grey[200],
                               )),
                           alignment: Alignment.center,
                           child: Text(
                             color,
                             style: TextStyle(
                               fontSize: 15,
-                              color: selectedColor == color
-                                  ? Colors.blueAccent
-                                  : Colors.grey[400],
+                              color: Colors.grey[200],
                             ),
                           ),
                         ),
@@ -106,22 +111,22 @@ class _ProductPageState extends State<ProductPage> {
                     }).toList(),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                        color: Colors.grey[500],
-                      )),
-                  height: 50,
-                  child: RaisedButton(
-                    onPressed: selectedColor != "" ? () {} : null,
+                SizedBox(height: 10),
+                Material(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromRGBO(110, 110, 110, 155),
+                  child: MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: (){},
                     child: Text(
-                      "Faça login para comprar",
+                      selectedColor == "" ? "Escolha uma cor..." : "Adicionar ao carinho",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.body1,
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
                 Text(
                   "Descrição:",
                   style: Theme.of(context).textTheme.display1,

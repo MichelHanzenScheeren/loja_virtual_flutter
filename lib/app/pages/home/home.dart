@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return SliverToBoxAdapter(
-                      child: WaitingWidget(),
+                      child: WaitingWidget(width: 100, height: 100,),
                     );
                   } else {
                     return SliverStaggeredGrid.count(
@@ -52,10 +52,16 @@ class _HomeState extends State<Home> {
                             document.data["x"], document.data["y"]);
                       }).toList(),
                       children: snapshot.data.map((document) {
-                        return FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: document.data["image"],
+                        return Image.network(
+                          document.data["image"],
                           fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return WaitingWidget(width: 50, height: 50);
+                            }
+                          },
                         );
                       }).toList(),
                     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/models/user.dart';
+import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -20,10 +20,6 @@ class MyApp extends StatelessWidget {
             color: Color.fromARGB(230, 230, 230, 230),
             size: 32,
           ),
-          buttonTheme: ButtonThemeData(
-            buttonColor: Colors.blueAccent,
-            disabledColor: Color.fromARGB(255, 50, 50, 50),
-          ),
           textTheme: TextTheme(
             title: TextStyle(
               color: Color.fromARGB(255, 245, 245, 245),
@@ -41,7 +37,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             body2: TextStyle(
-              color: Colors.blueAccent,
+              color: Colors.indigoAccent,
               fontSize: 22,
             ),
             subhead: TextStyle(
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             display2: TextStyle(
-              color: Colors.blueAccent,
+              color: Colors.indigoAccent,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
