@@ -10,7 +10,7 @@ class Client {
     this.id = id;
     email = data["email"];
     name = data["name"];
-    lastName = data[lastName];
+    lastName = data["lastName"];
   }
 
   Map<String, dynamic> toMap() =>

@@ -14,6 +14,12 @@ class Database {
         .setData(data.toMap());
   }
 
+  Future<Client> getUserData(String uid) async {
+    DocumentSnapshot data =
+        await Firestore.instance.collection("users").document(uid).get();
+    return Client.fromMap(uid, data.data);
+  }
+
   Future<List> getHomeProducts() async {
     QuerySnapshot query = await Firestore.instance
         .collection("home")

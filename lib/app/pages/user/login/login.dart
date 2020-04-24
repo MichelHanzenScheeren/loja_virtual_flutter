@@ -8,6 +8,7 @@ import 'package:lojavirtualflutter/app/pages/user/commonWidgets/myOkButton.dart'
 import 'package:lojavirtualflutter/app/pages/user/validators.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/services.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -21,14 +22,68 @@ class _LoginState extends State<Login> {
     color: Colors.white,
   );
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void doLogin(User model) {
+    model.logIn(
+      email: emailController.text,
+      password: passwordController.text,
+      onSucess: sucess,
+      onFail: fail,
+    );
+  }
+
+  Future sucess(String name) async {
+    String message = "Você entrou como $name!";
+    showSnackBar(Color.fromARGB(220, 21, 152, 21), message, 2);
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.of(context).pop();
+  }
+
+  void fail(PlatformException error) {
+    print(error.message);
+    print(error.code);
+    String message;
+    if (error.code == "ERROR_INVALID_EMAIL")
+      message = "O email informado não é válido!";
+    else if (error.code == "ERROR_USER_NOT_FOUND")
+      message = "O email não corresponde a nenhum usuário cadastrado!";
+    else if (error.code == "ERROR_WRONG_PASSWORD")
+      message = "Senha incorreta!";
+    else if (error.code == "ERROR_TOO_MANY_REQUESTS")
+      message = "Usuário temporariamente bloqueado devido ao excesso" +
+          " de tentativas de login!";
+    else
+      message = "Um erro ocorreu, tente novamente mais tarde!";
+
+    showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 4);
+  }
+
+  void showSnackBar(Color color, String message, int time) {
+    scaffoldKey.currentState.removeCurrentSnackBar();
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: Theme.of(context).textTheme.display1.copyWith(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: color,
+        duration: Duration(seconds: time),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: ScopedModelDescendant<User>(builder: (context, child, model) {
-        void doLogin() {
+        void allValidate() {
           if (formKey.currentState.validate()) {
-            model.logIn();
+            doLogin(model);
           }
         }
 
@@ -51,6 +106,7 @@ class _LoginState extends State<Login> {
                       style: style,
                       validator: Validator.emailValidator,
                       type: TextInputType.emailAddress,
+                      controller: emailController,
                     ),
                     SizedBox(height: 10.0),
                     MyTextFormField(
@@ -58,10 +114,11 @@ class _LoginState extends State<Login> {
                       style: style,
                       validator: Validator.passwordValidator,
                       obscure: true,
+                      controller: passwordController,
                     ),
                     MyForgetPasswordButton(style),
                     SizedBox(height: 20.0),
-                    MyOkButton("Entrar", style, doLogin),
+                    MyOkButton("Entrar", style, allValidate),
                     SizedBox(height: 30.0),
                     MyCreateAccountButton(style),
                   ],

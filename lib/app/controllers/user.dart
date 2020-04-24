@@ -11,6 +11,22 @@ class User extends Model {
   Client userData;
   bool isLoading = false;
 
+  @override
+  void addListener(listener) {
+    super.addListener(listener);
+    _loadCurrentUser();
+  }
+
+  Future _loadCurrentUser() async {
+    if (currentUser == null) {
+      currentUser = await auth.currentUser();
+    }
+    if (currentUser != null) {
+      userData = await Database.instance.getUserData(currentUser.uid);
+    }
+    notifyListeners();
+  }
+
   void createAccount({
     @required Client data,
     @required String password,
@@ -39,13 +55,33 @@ class User extends Model {
     notifyListeners();
   }
 
-  bool isLogged() {
-    return currentUser != null;
-  }
+  bool isLogged() => currentUser != null;
 
   String getName() => userData.name;
 
-  void logIn() {}
+  void logIn({
+    @required String email,
+    @required String password,
+    @required Function onSucess,
+    @required Function onFail,
+  }) {
+    setLoading(true);
+    auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((user) async {
+      currentUser = user;
+      await _loadCurrentUser();
+      await onSucess(userData.name);
+      setLoading(false);
+    }).catchError(
+      (error) {
+        currentUser = null;
+        userData = null;
+        onFail(error);
+        setLoading(false);
+      },
+    );
+  }
 
   void logOut() async {
     await auth.signOut();
