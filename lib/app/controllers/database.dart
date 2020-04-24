@@ -1,10 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lojavirtualflutter/app/models/client.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 
 class Database {
   static final Database instance = Database.internal();
   Database.internal();
   factory Database() => instance;
+
+  Future saveUserData(String uid, Client data) async {
+    await Firestore.instance
+        .collection("users")
+        .document(uid)
+        .setData(data.toMap());
+  }
 
   Future<List> getHomeProducts() async {
     QuerySnapshot query = await Firestore.instance

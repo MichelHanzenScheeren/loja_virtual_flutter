@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Validator {
   static String emailValidator(String text) {
     if (text.isEmpty) {
@@ -16,6 +18,17 @@ class Validator {
   static String passwordValidator(String text) {
     if (text.length < 8) {
       return "A senha deve ter pelo menos 8 caracters.";
+    } else {
+      return null;
+    }
+  }
+
+  static String confirmPasswordValidator(
+      String text, TextEditingController passwordController) {
+    if (text.length < 8) {
+      return "A senha deve ter pelo menos 8 caracters.";
+    } else if (text != passwordController.text) {
+      return "As senhas não são iguais!";
     } else {
       return null;
     }

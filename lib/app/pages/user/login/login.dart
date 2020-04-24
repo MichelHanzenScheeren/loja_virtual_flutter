@@ -20,23 +20,22 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.transparent,
-          padding: const EdgeInsets.all(30.0),
-          child: ScopedModelDescendant<User>(builder: (context, child, model) {
-            void doLogin() {
-              if (formKey.currentState.validate()) {
-                model.logIn();
-              }
-            }
+      body: ScopedModelDescendant<User>(builder: (context, child, model) {
+        void doLogin() {
+          if (formKey.currentState.validate()) {
+            model.logIn();
+          }
+        }
 
-            if(model.isLoading)
-              return WaitingWidget(width: 50, height: 50);
+        if (model.isLoading) return WaitingWidget(width: 50, height: 50);
 
-            return Form(
-              key: formKey,
-              child: SingleChildScrollView(
+        return Center(
+          child: SingleChildScrollView(
+            child: Container(
+              color: Colors.transparent,
+              padding: const EdgeInsets.all(30.0),
+              child: Form(
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -63,10 +62,10 @@ class Login extends StatelessWidget {
                   ],
                 ),
               ),
-            );
-          }),
-        ),
-      ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }
