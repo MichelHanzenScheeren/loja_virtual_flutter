@@ -16,6 +16,8 @@ class User extends Model {
     _loadCurrentUser();
   }
 
+  static User of(BuildContext context) => ScopedModel.of<User>(context);
+
   Future _loadCurrentUser() async {
     if (currentUser == null) {
       currentUser = await auth.currentUser();

@@ -1,6 +1,9 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
+import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatefulWidget {
   final Product product;
@@ -17,7 +20,7 @@ class _ProductPageState extends State<ProductPage> {
   String selectedColor;
 
   void initColor() {
-    if(selectedColor == null) {
+    if (selectedColor == null) {
       selectedColor = product.colors[0];
     }
   }
@@ -93,7 +96,9 @@ class _ProductPageState extends State<ProductPage> {
                         child: Container(
                           padding: EdgeInsets.only(top: 5, bottom: 5),
                           decoration: BoxDecoration(
-                            color: selectedColor == color ? Colors.indigoAccent : Colors.transparent,
+                              color: selectedColor == color
+                                  ? Colors.indigoAccent
+                                  : Colors.transparent,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: Colors.grey[200],
@@ -112,19 +117,29 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Material(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color.fromRGBO(110, 110, 110, 155),
-                  child: MaterialButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    onPressed: (){},
-                    child: Text(
-                      selectedColor == "" ? "Escolha uma cor..." : "Adicionar ao carinho",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.body1,
-                    ),
-                  ),
+                ScopedModelDescendant<User>(
+                  builder: (context, widget, model) {
+                    return Material(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromRGBO(110, 110, 110, 155),
+                      child: MaterialButton(
+                        minWidth: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                        child: Text(
+                          model.isLogged()
+                              ? "Adicionar ao carinho"
+                              : "Faça Login para comprar...",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.body1,
+                        ),
+                        onPressed: () {
+                          model.isLogged()
+                              ? addToCart()
+                              : openLoginPage(context);
+                        },
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -141,5 +156,10 @@ class _ProductPageState extends State<ProductPage> {
         ],
       ),
     );
+  }
+
+  void addToCart() {}
+  void openLoginPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 }

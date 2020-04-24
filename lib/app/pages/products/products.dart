@@ -62,6 +62,8 @@ class ProductsList extends StatelessWidget {
         ),
         itemCount: data.length,
         itemBuilder: (context, index) {
+          data[index].category = category["id"];
+          print(data[index].category);
           return ProductItem("grid", data[index]);
         });
   }
@@ -71,8 +73,8 @@ class ProductsList extends StatelessWidget {
         padding: EdgeInsets.all(5),
         itemCount: data.length,
         itemBuilder: (context, index) {
+          data[index].category = category["id"];
           return ProductItem("list", data[index]);
-        }
-    );
+        });
   }
 }
