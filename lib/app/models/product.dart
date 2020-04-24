@@ -17,4 +17,7 @@ class Product {
     images = data["images"];
     colors = data["colors"];
   }
+
+  Map<String, dynamic> toResumeMap() =>
+      {"title": title, "description": description, "price": price};
 }
