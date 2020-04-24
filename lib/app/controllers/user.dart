@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -13,8 +14,8 @@ class User extends Model {
   void createAccount({
     @required Client data,
     @required String password,
-    @required VoidCallback onSucess,
-    @required VoidCallback onFail,
+    @required Function onSucess,
+    @required Function onFail,
   }) {
     setLoading(true);
     auth
@@ -22,12 +23,12 @@ class User extends Model {
         .then((user) async {
       currentUser = user;
       userData = data;
+      await onSucess();
       await Database.instance.saveUserData(currentUser.uid, data);
-      onSucess();
       setLoading(false);
     }).catchError(
       (error) {
-        onFail();
+        onFail(error);
         setLoading(false);
       },
     );
@@ -38,13 +39,20 @@ class User extends Model {
     notifyListeners();
   }
 
+  bool isLogged() {
+    return currentUser != null;
+  }
+
+  String getName() => userData.name;
+
   void logIn() {}
 
-  void logOut() {}
+  void logOut() async {
+    await auth.signOut();
+    userData = null;
+    currentUser = null;
+    notifyListeners();
+  }
 
   void recoverPassword() {}
-
-  bool isLogged() {
-    return false;
-  }
 }

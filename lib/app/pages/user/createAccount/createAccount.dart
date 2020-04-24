@@ -7,6 +7,7 @@ import 'package:lojavirtualflutter/app/pages/user/createAccount/myUserTerms.dart
 import 'package:lojavirtualflutter/app/pages/user/validators.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/services.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _CreateAccountState extends State<CreateAccount> {
     color: Colors.white,
   );
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
@@ -43,13 +45,44 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  void sucess() {}
+  Future sucess() async {
+    String message = "Usuário criado com sucesso!";
+    showSnackBar(Color.fromARGB(220, 21, 152, 21), message, 2);
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pop(context);
+  }
 
-  void fail() {}
+  void fail(PlatformException error) {
+    String message;
+    if (error.code == "ERROR_INVALID_EMAIL")
+      message = "O email informado não é válido!";
+    else if (error.code == "ERROR_EMAIL_ALREADY_IN_USE")
+      message = "Este email já possui uma conta vinculada!";
+    else
+      message = "Não foi possível concluir o cadastro..." +
+          "\nTente novamente mais tarde!";
+
+    showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 3);
+  }
+
+  void showSnackBar(Color color, String message, int time) {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: Theme.of(context).textTheme.display1.copyWith(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: color,
+        duration: Duration(seconds: time),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: ScopedModelDescendant<User>(
         builder: (context, child, model) {
           void allValidate() {
