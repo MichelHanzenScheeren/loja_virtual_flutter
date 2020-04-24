@@ -9,7 +9,12 @@ import 'package:lojavirtualflutter/app/pages/user/validators.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final TextStyle style = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 20.0,
