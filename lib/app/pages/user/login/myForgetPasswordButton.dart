@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class MyForgetPasswordButton extends StatelessWidget {
   final TextStyle style;
-  MyForgetPasswordButton(this.style);
+  final Function forgetPassword;
+  MyForgetPasswordButton(this.style, this.forgetPassword);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class MyForgetPasswordButton extends StatelessWidget {
           ),
         ),
       ),
+      onTap: forgetPassword,
     );
   }
 }

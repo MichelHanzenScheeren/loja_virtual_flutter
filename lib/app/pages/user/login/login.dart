@@ -76,16 +76,33 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void forgetPassword(User model) async {
+    if (emailController.text.isEmpty) {
+      String message = "Preencha seu email para recuperar a senha...";
+      showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 4);
+    } else {
+      await model.recoverPassword(emailController.text, forgetPassSucess, fail);
+    }
+  }
+
+  void forgetPassSucess() {
+    String message =
+        "Acabamos de enviar um email com as instruções de recuperação da senha...";
+    showSnackBar(Color.fromARGB(220, 21, 152, 21), message, 4);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       body: ScopedModelDescendant<User>(builder: (context, child, model) {
-        void allValidate() {
+        void loginValidate() {
           if (formKey.currentState.validate()) {
             doLogin(model);
           }
         }
+
+        void validateForgetPassword() => forgetPassword(model);
 
         if (model.isLoading) return WaitingWidget(width: 50, height: 50);
 
@@ -116,9 +133,9 @@ class _LoginState extends State<Login> {
                       obscure: true,
                       controller: passwordController,
                     ),
-                    MyForgetPasswordButton(style),
+                    MyForgetPasswordButton(style, validateForgetPassword),
                     SizedBox(height: 20.0),
-                    MyOkButton("Entrar", style, allValidate),
+                    MyOkButton("Entrar", style, loginValidate),
                     SizedBox(height: 30.0),
                     MyCreateAccountButton(style),
                   ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
 
@@ -31,7 +30,10 @@ class _HomeState extends State<Home> {
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Novidades", style: Theme.of(context).textTheme.subtitle,),
+                  title: Text(
+                    "Novidades",
+                    style: Theme.of(context).textTheme.subtitle,
+                  ),
                   centerTitle: true,
                 ),
               ),
@@ -40,7 +42,10 @@ class _HomeState extends State<Home> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return SliverToBoxAdapter(
-                      child: WaitingWidget(width: 100, height: 100,),
+                      child: WaitingWidget(
+                        width: 100,
+                        height: 100,
+                      ),
                     );
                   } else {
                     return SliverStaggeredGrid.count(

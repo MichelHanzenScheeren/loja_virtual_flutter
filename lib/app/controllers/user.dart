@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -90,5 +89,18 @@ class User extends Model {
     notifyListeners();
   }
 
-  void recoverPassword() {}
+  Future recoverPassword(
+    String email,
+    Function onSucess,
+    Function onFail,
+  ) async {
+    setLoading(true);
+    await auth.sendPasswordResetEmail(email: email).then((_) {
+      setLoading(false);
+      onSucess();
+    }).catchError((error) {
+      setLoading(false);
+      onFail(error);
+    });
+  }
 }
