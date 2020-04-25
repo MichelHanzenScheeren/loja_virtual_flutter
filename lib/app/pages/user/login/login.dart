@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
-import 'package:lojavirtualflutter/app/pages/user/commonWidgets/myTextFormField.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/myCreateAccountButton.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/myForgetPasswordButton.dart';
-import 'package:lojavirtualflutter/app/pages/user/commonWidgets/myOkButton.dart';
 import 'package:lojavirtualflutter/app/pages/user/validators.dart';
+import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
+import 'package:lojavirtualflutter/app/widgets/myTextFormField.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/services.dart';
