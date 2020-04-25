@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
+import 'package:lojavirtualflutter/app/models/cartProduct.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
+import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class User extends Model {
@@ -103,6 +105,28 @@ class User extends Model {
     }).catchError((error) {
       setLoading(false);
       onFail(error);
+    });
+  }
+
+  void addToCart({
+    @required Product product,
+    @required String selectedColor,
+    @required Function onSucess,
+    @required Function onFail,
+  }) async {
+    CartProduct cartProduct = CartProduct(
+      productUid: product.id,
+      categoryUid: product.category,
+      quantity: 1,
+      color: selectedColor,
+    );
+    setLoading(true);
+    Database.instance.addCartItem(currentUser.uid, cartProduct).then((_) {
+      onSucess();
+      setLoading(false);
+    }).catchError((error) {
+      onFail(error);
+      setLoading(false);
     });
   }
 }

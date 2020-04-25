@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 
-class Cart {
+class CartProduct {
   String cartUid;
   String productUid;
   String categoryUid;
@@ -10,7 +11,14 @@ class Cart {
 
   Product product;
 
-  Cart.fromMap(String uid, Map data) {
+  CartProduct({
+    @required this.productUid,
+    @required this.categoryUid,
+    @required this.quantity,
+    @required this.color,
+  });
+
+  CartProduct.fromMap(String uid, Map data) {
     cartUid = uid;
     productUid = data["productUid"];
     categoryUid = data["categoryUid"];
@@ -23,6 +31,6 @@ class Cart {
         "categoryUid": categoryUid,
         "quantity": quantity,
         "color": color,
-        "product": product.toResumeMap()
+        //"product": product.toResumeMap()
       };
 }

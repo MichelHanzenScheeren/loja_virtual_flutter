@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
+import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final Product product;
   _ProductPageState(this.product);
 
@@ -30,6 +32,7 @@ class _ProductPageState extends State<ProductPage> {
     initColor();
     final Color primary = Theme.of(context).primaryColor;
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
           product.title,
@@ -119,26 +122,30 @@ class _ProductPageState extends State<ProductPage> {
                 SizedBox(height: 10),
                 ScopedModelDescendant<User>(
                   builder: (context, widget, model) {
-                    return Material(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color.fromRGBO(110, 110, 110, 155),
-                      child: MaterialButton(
-                        minWidth: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        child: Text(
-                          model.isLogged()
-                              ? "Adicionar ao carinho"
-                              : "Faça Login para comprar...",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.body1,
+                    if (!model.isLoading) {
+                      return Material(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromRGBO(110, 110, 110, 155),
+                        child: MaterialButton(
+                          minWidth: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          child: Text(
+                            model.isLogged()
+                                ? "Adicionar ao carinho"
+                                : "Faça Login para comprar...",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.body1,
+                          ),
+                          onPressed: () {
+                            model.isLogged()
+                                ? addToCart(model)
+                                : openLoginPage(context);
+                          },
                         ),
-                        onPressed: () {
-                          model.isLogged()
-                              ? addToCart()
-                              : openLoginPage(context);
-                        },
-                      ),
-                    );
+                      );
+                    } else {
+                      return WaitingWidget(height: 30, width: 30);
+                    }
                   },
                 ),
                 SizedBox(height: 10),
@@ -158,7 +165,38 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void addToCart() {}
+  void addToCart(User model) {
+    model.addToCart(
+      product: product,
+      selectedColor: selectedColor,
+      onSucess: sucess,
+      onFail: fail,
+    );
+  }
+
+  void sucess() {
+    showSnackBar(Color.fromARGB(220, 21, 152, 21), "Produto Adicionado!", 3);
+  }
+
+  void fail(error) {
+    String message = "Não foi possível adicionar o produto ao carrinho!";
+    showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 3);
+  }
+
+  void showSnackBar(Color color, String message, int time) {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: Theme.of(context).textTheme.display1.copyWith(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: color,
+        duration: Duration(seconds: time),
+      ),
+    );
+  }
+
   void openLoginPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
