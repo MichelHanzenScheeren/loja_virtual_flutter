@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:lojavirtualflutter/app/pages/products/productItem.dart';
+import 'package:lojavirtualflutter/app/widgets/cartButton.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 
 class ProductsList extends StatelessWidget {
@@ -13,6 +14,7 @@ class ProductsList extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        floatingActionButton: CartButton(),
         appBar: AppBar(
           title: Text(
             category["title"],
@@ -53,7 +55,7 @@ class ProductsList extends StatelessWidget {
 
   Widget gridTab(List<Product> data) {
     return GridView.builder(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.fromLTRB(5, 5, 5, 60),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 4,

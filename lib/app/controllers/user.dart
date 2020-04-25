@@ -22,6 +22,7 @@ class User extends Model {
   }
 
   Future _loadCurrentUser() async {
+    setLoading(true);
     if (currentUser == null) {
       currentUser = await auth.currentUser();
     }
@@ -29,7 +30,7 @@ class User extends Model {
       userData = await Database.instance.getUserData(currentUser.uid);
       cartProducts = await Database.instance.getCartProducts(currentUser.uid);
     }
-    notifyListeners();
+    setLoading(false);
   }
 
   void createAccount({
@@ -63,6 +64,16 @@ class User extends Model {
   bool isLogged() => currentUser != null;
 
   String getName() => userData.name;
+
+  int cartProductsCount() {
+    if (cartProducts == null) {
+      return 0;
+    } else {
+      return cartProducts.fold(0, (sum, item) {
+        return item.quantity + sum;
+      });
+    }
+  }
 
   void logIn({
     @required String email,
@@ -150,7 +161,7 @@ class User extends Model {
   CartProduct findCartProduct(String productId, String color) {
     return cartProducts?.firstWhere((item) {
       return item.productUid == productId && item.color == color;
-    }, orElse: ()=> null);
+    }, orElse: () => null);
   }
 
   void sucess(Function onSucess) {

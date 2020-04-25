@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
         home: ControllerPage(),
         theme: ThemeData(
           scaffoldBackgroundColor: Color.fromARGB(240, 30, 30, 30),
-          primaryColor: Color.fromARGB(255, 50, 50, 50),
-          hintColor: Color.fromARGB(255, 230, 230, 230),
+          primaryColor: Color.fromARGB(255, 60, 60, 60),
+          hintColor: Color.fromARGB(230, 230, 230, 230),
           iconTheme: IconThemeData(
             color: Color.fromARGB(230, 230, 230, 230),
             size: 32,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             body1: TextStyle(
-              color: Color.fromARGB(220, 220, 220, 220),
+              color: Color.fromARGB(245, 225, 225, 225),
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),

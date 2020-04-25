@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
+import 'package:lojavirtualflutter/app/widgets/cartButton.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -33,6 +34,7 @@ class _ProductPageState extends State<ProductPage> {
     final Color primary = Theme.of(context).primaryColor;
     return Scaffold(
       key: scaffoldKey,
+      floatingActionButton: CartButton(),
       appBar: AppBar(
         title: Text(
           product.title,
@@ -119,7 +121,7 @@ class _ProductPageState extends State<ProductPage> {
                     }).toList(),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 ScopedModelDescendant<User>(
                   builder: (context, widget, model) {
                     if (!model.isLoading) {
@@ -148,7 +150,7 @@ class _ProductPageState extends State<ProductPage> {
                     }
                   },
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Text(
                   "Descrição:",
                   style: Theme.of(context).textTheme.display1,
@@ -157,6 +159,7 @@ class _ProductPageState extends State<ProductPage> {
                   product.description,
                   style: TextStyle(fontSize: 15, color: Colors.grey[400]),
                 ),
+                SizedBox(height: 60),
               ],
             ),
           )
