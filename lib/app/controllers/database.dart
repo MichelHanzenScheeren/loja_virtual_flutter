@@ -49,40 +49,38 @@ class Database {
     }).toList();
   }
 
-  Future addCartItem(String userUid, CartProduct cartProduct) async {
-    QuerySnapshot query = await Firestore.instance
-        .collection("users")
-        .document(userUid)
-        .collection("cart")
-        .where("productUid", isEqualTo: cartProduct.productUid)
-        .where("color", isEqualTo: cartProduct.color)
-        .getDocuments();
-
-    if (query.documents.length > 0) {
-      await updateCartItemQuantity(userUid, query.documents[0]);
-    } else {
-      await createCartItem(userUid, cartProduct);
-    }
-  }
-
-  Future updateCartItemQuantity(
-      String userUid, DocumentSnapshot document) async {
-    int quantity = document.data["quantity"];
-    quantity += 1;
-    document.data["quantity"] = quantity;
-    await Firestore.instance
-        .collection("users")
-        .document(userUid)
-        .collection("cart")
-        .document(document.documentID)
-        .setData(document.data);
-  }
-
-  Future createCartItem(String userUid, CartProduct cartProduct) async {
-    await Firestore.instance
+  Future<String> newCartItem(String userUid, CartProduct cartProduct) async {
+    DocumentReference reference = await Firestore.instance
         .collection("users")
         .document(userUid)
         .collection("cart")
         .add(cartProduct.toMap());
+
+    return reference.documentID;
+  }
+
+  Future updateCartItemQuantity(String userUid, CartProduct cartProduct) async {
+    await Firestore.instance
+        .collection("users")
+        .document(userUid)
+        .collection("cart")
+        .document(cartProduct.cartUid)
+        .setData(cartProduct.toMap());
+  }
+
+  Future<List<CartProduct>> getCartProducts(String userUid) async {
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(userUid)
+        .collection("cart")
+        .getDocuments();
+
+    if (query.documents.length > 0) {
+      return query.documents.map((doc) {
+        return CartProduct.fromMap(doc.documentID, doc.data);
+      }).toList();
+    } else {
+      return null;
+    }
   }
 }

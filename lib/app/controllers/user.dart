@@ -10,7 +10,10 @@ class User extends Model {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseUser currentUser;
   Client userData;
+  List<CartProduct> cartProducts;
   bool isLoading = false;
+
+  static User of(BuildContext context) => ScopedModel.of<User>(context);
 
   @override
   void addListener(listener) {
@@ -18,14 +21,13 @@ class User extends Model {
     _loadCurrentUser();
   }
 
-  static User of(BuildContext context) => ScopedModel.of<User>(context);
-
   Future _loadCurrentUser() async {
     if (currentUser == null) {
       currentUser = await auth.currentUser();
     }
     if (currentUser != null) {
       userData = await Database.instance.getUserData(currentUser.uid);
+      cartProducts = await Database.instance.getCartProducts(currentUser.uid);
     }
     notifyListeners();
   }
@@ -90,6 +92,7 @@ class User extends Model {
     await auth.signOut();
     userData = null;
     currentUser = null;
+    cartProducts = null;
     notifyListeners();
   }
 
@@ -114,19 +117,49 @@ class User extends Model {
     @required Function onSucess,
     @required Function onFail,
   }) async {
-    CartProduct cartProduct = CartProduct(
-      productUid: product.id,
-      categoryUid: product.category,
-      quantity: 1,
-      color: selectedColor,
-    );
     setLoading(true);
-    Database.instance.addCartItem(currentUser.uid, cartProduct).then((_) {
-      onSucess();
-      setLoading(false);
-    }).catchError((error) {
-      onFail(error);
-      setLoading(false);
-    });
+    CartProduct item = findCartProduct(product.id, selectedColor);
+    if (item == null) {
+      CartProduct cartProduct = CartProduct(
+        productUid: product.id,
+        categoryUid: product.category,
+        quantity: 1,
+        color: selectedColor,
+      );
+
+      Database.instance.newCartItem(currentUser.uid, cartProduct).then((uid) {
+        cartProduct.cartUid = uid;
+        if (cartProducts == null) {
+          cartProducts = List<CartProduct>();
+        }
+        cartProducts.add(cartProduct);
+        sucess(onSucess);
+      }).catchError((error) {
+        fail(onFail, error);
+      });
+    } else {
+      item.quantity += 1;
+      Database.instance.updateCartItemQuantity(currentUser.uid, item).then((_) {
+        sucess(onSucess);
+      }).catchError((error) {
+        fail(onFail, error);
+      });
+    }
+  }
+
+  CartProduct findCartProduct(String productId, String color) {
+    return cartProducts?.firstWhere((item) {
+      return item.productUid == productId && item.color == color;
+    }, orElse: ()=> null);
+  }
+
+  void sucess(Function onSucess) {
+    onSucess();
+    setLoading(false);
+  }
+
+  void fail(Function onFail, dynamic error) {
+    onFail(error);
+    setLoading(false);
   }
 }
