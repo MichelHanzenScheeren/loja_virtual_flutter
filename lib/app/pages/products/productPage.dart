@@ -107,7 +107,7 @@ class _ProductPageState extends State<ProductPage> {
                               color: selectedColor == color
                                   ? Colors.indigoAccent
                                   : Colors.transparent,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(10),
                               border: Border.all(
                                 color: Colors.grey[200],
                               )),
@@ -129,7 +129,7 @@ class _ProductPageState extends State<ProductPage> {
                   builder: (context, widget, model) {
                     if (!model.isLoading) {
                       return Material(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                         color: Color.fromRGBO(110, 110, 110, 155),
                         child: MaterialButton(
                           minWidth: MediaQuery.of(context).size.width,

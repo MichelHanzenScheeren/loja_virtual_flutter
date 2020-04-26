@@ -34,9 +34,6 @@ class ShippingCard extends StatelessWidget {
                 border: textFieldBorder,
                 enabledBorder: textFieldBorder,
               ),
-              onFieldSubmitted: (text) {
-                return;
-              },
             ),
           ),
         ],

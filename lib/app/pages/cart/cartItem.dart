@@ -47,6 +47,10 @@ class CartItem extends StatelessWidget {
               cartProduct.product.images[0],
               fit: BoxFit.cover,
               height: 150,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return WaitingWidget(width: 120, height: 120);
+              },
             ),
           ),
           Flexible(

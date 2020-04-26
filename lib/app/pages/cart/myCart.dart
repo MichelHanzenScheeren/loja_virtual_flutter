@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/cart/cartItem.dart';
+import 'package:lojavirtualflutter/app/pages/cart/detailsCard.dart';
 import 'package:lojavirtualflutter/app/pages/cart/discountCard.dart';
 import 'package:lojavirtualflutter/app/pages/cart/shippingCard.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
@@ -142,6 +143,8 @@ class _MyCartState extends State<MyCart> {
         ),
         DiscountCard(submitCoupom),
         ShippingCard(),
+        DetailsCard(finishOrder),
+        SizedBox(height: 10),
       ],
     );
   }
@@ -164,4 +167,6 @@ class _MyCartState extends State<MyCart> {
       backgroundColor: color,
     ));
   }
+
+  void finishOrder() {}
 }
