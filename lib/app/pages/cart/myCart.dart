@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/cart/cartItem.dart';
 import 'package:lojavirtualflutter/app/pages/cart/discountCard.dart';
+import 'package:lojavirtualflutter/app/pages/cart/shippingCard.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
@@ -15,8 +16,6 @@ class MyCart extends StatefulWidget {
 
 class _MyCartState extends State<MyCart> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String coupom;
-  int percentDiscount;
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +141,7 @@ class _MyCartState extends State<MyCart> {
           }).toList(),
         ),
         DiscountCard(submitCoupom),
+        ShippingCard(),
       ],
     );
   }
