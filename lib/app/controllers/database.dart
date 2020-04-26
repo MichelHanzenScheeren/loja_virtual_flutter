@@ -45,8 +45,19 @@ class Database {
         .collection("items")
         .getDocuments();
     return query.documents.map((product) {
-      return Product.fromMap(product.documentID, product);
+      return Product.fromMap(product.documentID, product.data);
     }).toList();
+  }
+
+  Future<Product> getProductById(String category, String productId) async {
+    DocumentSnapshot doc = await Firestore.instance
+        .collection("products")
+        .document(category)
+        .collection("items")
+        .document(productId)
+        .get();
+
+    return Product.fromMap(doc.documentID, doc.data);
   }
 
   Future<String> newCartItem(String userUid, CartProduct cartProduct) async {
@@ -65,7 +76,7 @@ class Database {
         .document(userUid)
         .collection("cart")
         .document(cartProduct.cartUid)
-        .setData(cartProduct.toMap());
+        .updateData(cartProduct.toMap());
   }
 
   Future<List<CartProduct>> getCartProducts(String userUid) async {
@@ -82,5 +93,14 @@ class Database {
     } else {
       return null;
     }
+  }
+
+  void removeFromCart(String userUid, String cartUid) {
+    Firestore.instance
+        .collection("users")
+        .document(userUid)
+        .collection("cart")
+        .document(cartUid)
+        .delete();
   }
 }

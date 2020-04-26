@@ -43,8 +43,6 @@ class _LoginState extends State<Login> {
   }
 
   void fail(PlatformException error) {
-    print(error.message);
-    print(error.code);
     String message;
     if (error.code == "ERROR_INVALID_EMAIL")
       message = "O email informado não é válido!";

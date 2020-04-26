@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
+import 'package:lojavirtualflutter/app/pages/cart/cartItem.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
@@ -19,13 +20,13 @@ class _MyCartState extends State<MyCart> {
       body: ScopedModelDescendant<User>(
         builder: (context, widget, model) {
           if (!model.isLogged()) {
-            return notLoggedWidget();
+            return notLogged();
           } else if (model.isLoading) {
             return WaitingWidget();
           } else if (model.cartProductsCount() == 0) {
             return cartEmpty();
           } else {
-            return Container(color: Colors.red);
+            return buildMyCart(model);
           }
         },
       ),
@@ -39,11 +40,13 @@ class _MyCartState extends State<MyCart> {
         style: Theme.of(context).textTheme.subtitle.copyWith(fontSize: 27),
       ),
       actions: <Widget>[
-        Container(
-          padding: EdgeInsets.only(right: 5),
-          alignment: Alignment.center,
-          child: cartProductsCount(),
-        ),
+        ScopedModelDescendant<User>(builder: (context, widget, model) {
+          return Container(
+            padding: EdgeInsets.only(right: 5),
+            alignment: Alignment.center,
+            child: cartProductsCount(),
+          );
+        })
       ],
     );
   }
@@ -56,7 +59,7 @@ class _MyCartState extends State<MyCart> {
     );
   }
 
-  Widget notLoggedWidget() {
+  Widget notLogged() {
     return Container(
       padding: EdgeInsets.all(30),
       child: Column(
@@ -121,6 +124,18 @@ class _MyCartState extends State<MyCart> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildMyCart(User model) {
+    return ListView(
+      children: <Widget>[
+        Column(
+          children: model.cartProducts.map((item) {
+            return CartItem(item);
+          }).toList(),
+        ),
+      ],
     );
   }
 }

@@ -46,15 +46,18 @@ class _ProductPageState extends State<ProductPage> {
         children: <Widget>[
           AspectRatio(
             aspectRatio: 0.9,
-            child: Carousel(
-              images: product.images.map((image) {
-                return NetworkImage(image);
-              }).toList(),
-              dotSize: 4,
-              dotSpacing: 20,
-              dotBgColor: Colors.transparent,
-              dotColor: primary,
-              autoplay: false,
+            child: Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Carousel(
+                images: product.images.map((image) {
+                  return NetworkImage(image);
+                }).toList(),
+                dotSize: 4,
+                dotSpacing: 20,
+                dotBgColor: Colors.transparent,
+                dotColor: primary,
+                autoplay: false,
+              ),
             ),
           ),
           Container(
@@ -146,7 +149,10 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                       );
                     } else {
-                      return WaitingWidget(height: 30, width: 30);
+                      return Container(
+                        height: 55,
+                        child: WaitingWidget(height: 30, width: 30),
+                      );
                     }
                   },
                 ),
@@ -178,12 +184,12 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void sucess() {
-    showSnackBar(Color.fromARGB(220, 21, 152, 21), "Produto Adicionado!", 3);
+    showSnackBar(Color.fromARGB(220, 21, 152, 21), "Produto Adicionado!", 2);
   }
 
   void fail(error) {
     String message = "Não foi possível adicionar o produto ao carrinho!";
-    showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 3);
+    showSnackBar(Color.fromARGB(220, 230, 0, 0), message, 2);
   }
 
   void showSnackBar(Color color, String message, int time) {

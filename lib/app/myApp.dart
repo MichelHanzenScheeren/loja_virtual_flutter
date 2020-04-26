@@ -17,9 +17,10 @@ class MyApp extends StatelessWidget {
           primaryColor: Color.fromARGB(255, 60, 60, 60),
           hintColor: Color.fromARGB(230, 230, 230, 230),
           iconTheme: IconThemeData(
-            color: Color.fromARGB(230, 230, 230, 230),
+            color: Color.fromARGB(240, 230, 230, 230),
             size: 32,
           ),
+          disabledColor: Color.fromARGB(130, 130, 130, 130),
           textTheme: TextTheme(
             title: TextStyle(
               color: Color.fromARGB(255, 245, 245, 245),

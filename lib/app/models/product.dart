@@ -9,7 +9,7 @@ class Product {
   List images;
   List colors;
 
-  Product.fromMap(String idAux, DocumentSnapshot data) {
+  Product.fromMap(String idAux, Map<String, dynamic> data) {
     id = idAux;
     title = data["title"];
     description = data["description"];

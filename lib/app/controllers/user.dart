@@ -173,4 +173,16 @@ class User extends Model {
     onFail(error);
     setLoading(false);
   }
+
+  void removeFromCart(CartProduct cartProduct) {
+    Database.instance.removeFromCart(currentUser.uid, cartProduct.cartUid);
+    cartProducts.remove(cartProduct);
+    notifyListeners();
+  }
+
+  void modifyCartProductQuantity(int num, CartProduct cartProduct) {
+    cartProduct.quantity += num;
+    Database.instance.updateCartItemQuantity(currentUser.uid, cartProduct);
+    notifyListeners();
+  }
 }
