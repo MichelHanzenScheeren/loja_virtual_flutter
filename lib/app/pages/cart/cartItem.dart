@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/models/cartProduct.dart';
-import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 
 class CartItem extends StatelessWidget {
@@ -15,9 +13,8 @@ class CartItem extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       color: Colors.transparent,
       child: cartProduct.product == null
-          ? FutureBuilder<Product>(
-              future: Database.instance.getProductById(
-                  cartProduct.categoryUid, cartProduct.productUid),
+          ? FutureBuilder(
+              future: User.of(context).getProductById(cartProduct),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return SizedBox(
@@ -25,7 +22,6 @@ class CartItem extends StatelessWidget {
                     child: WaitingWidget(height: 30, width: 30),
                   );
                 } else {
-                  cartProduct.product = snapshot.data;
                   return buildItem(context);
                 }
               },

@@ -22,6 +22,10 @@ class DetailsCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         child: ScopedModelDescendant<User>(
           builder: (context, widget, model) {
+            double subTotal = model.getSubtotalOfCart();
+            double discount = model.getDiscountOfCart(subTotal);
+            double shipping = model.getShippingOfCart();
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,7 +39,10 @@ class DetailsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("SubTotal:", style: display1),
-                    Text("R\$ 0.00", style: display1),
+                    Text(
+                      "R\$ ${subTotal.toStringAsFixed(2)}",
+                      style: display1,
+                    ),
                   ],
                 ),
                 Divider(),
@@ -43,7 +50,7 @@ class DetailsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Desconto:", style: display1),
-                    Text("R\$ 0.00", style: display1),
+                    Text("R\$ ${discount.toStringAsFixed(2)}", style: display1),
                   ],
                 ),
                 Divider(),
@@ -51,7 +58,7 @@ class DetailsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("Frete:", style: display1),
-                    Text("R\$ 0.00", style: display1),
+                    Text("R\$ ${shipping.toStringAsFixed(2)}", style: display1),
                   ],
                 ),
                 SizedBox(height: 30),
@@ -59,7 +66,9 @@ class DetailsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("TOTAL:", style: body1),
-                    Text("R\$ 0.00", style: Theme.of(context).textTheme.body2),
+                    Text(
+                        "R\$ ${(subTotal - discount + shipping).toStringAsFixed(2)}",
+                        style: Theme.of(context).textTheme.body2),
                   ],
                 ),
                 SizedBox(height: 25),

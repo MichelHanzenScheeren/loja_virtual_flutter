@@ -182,6 +182,12 @@ class User extends Model {
     notifyListeners();
   }
 
+  Future getProductById(CartProduct cartProduct) async {
+    cartProduct.product = await Database.instance
+        .getProductById(cartProduct.categoryUid, cartProduct.productUid);
+    notifyListeners();
+  }
+
   void modifyCartProductQuantity(int num, CartProduct cartProduct) {
     cartProduct.quantity += num;
     Database.instance.updateCartItemQuantity(currentUser.uid, cartProduct);
@@ -190,6 +196,27 @@ class User extends Model {
 
   Future<bool> submitCoupom(String text) async {
     coupon = await Database.instance.getCoupom(text);
+    notifyListeners();
     return coupon != null;
+  }
+
+  double getSubtotalOfCart() {
+    double subTotal = 0;
+    for (CartProduct cartProduct in cartProducts) {
+      if (cartProduct.product != null)
+        subTotal += (cartProduct.quantity * cartProduct.product.price);
+    }
+    return subTotal;
+  }
+
+  double getDiscountOfCart(double subTotal) {
+    if (coupon != null) {
+      return subTotal * coupon["percent"] / 100;
+    } else
+      return 0;
+  }
+
+  double getShippingOfCart() {
+    return 0;
   }
 }
