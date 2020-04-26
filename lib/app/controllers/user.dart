@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
@@ -11,6 +12,7 @@ class User extends Model {
   FirebaseUser currentUser;
   Client userData;
   List<CartProduct> cartProducts;
+  Map<String, dynamic> coupon;
   bool isLoading = false;
 
   static User of(BuildContext context) => ScopedModel.of<User>(context);
@@ -184,5 +186,10 @@ class User extends Model {
     cartProduct.quantity += num;
     Database.instance.updateCartItemQuantity(currentUser.uid, cartProduct);
     notifyListeners();
+  }
+
+  Future<bool> submitCoupom(String text) async {
+    coupon = await Database.instance.getCoupom(text);
+    return coupon != null;
   }
 }

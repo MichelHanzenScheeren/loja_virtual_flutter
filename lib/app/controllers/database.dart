@@ -103,4 +103,14 @@ class Database {
         .document(cartUid)
         .delete();
   }
+
+  Future<Map<String, dynamic>> getCoupom(String text) async {
+    DocumentSnapshot doc =
+        await Firestore.instance.collection("coupons").document(text).get();
+    if (doc.exists) {
+      return doc.data;
+    } else {
+      return null;
+    }
+  }
 }

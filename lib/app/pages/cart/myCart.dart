@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/cart/cartItem.dart';
+import 'package:lojavirtualflutter/app/pages/cart/discountCard.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
@@ -13,9 +14,14 @@ class MyCart extends StatefulWidget {
 }
 
 class _MyCartState extends State<MyCart> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  String coupom;
+  int percentDiscount;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: myAppBar(),
       body: ScopedModelDescendant<User>(
         builder: (context, widget, model) {
@@ -135,7 +141,27 @@ class _MyCartState extends State<MyCart> {
             return CartItem(item);
           }).toList(),
         ),
+        DiscountCard(submitCoupom),
       ],
     );
+  }
+
+  void submitCoupom(String text) async {
+    if (await User.of(context).submitCoupom(text)) {
+      showSnackBar("Cupom aplicado!", Color.fromARGB(220, 21, 152, 21));
+    } else {
+      showSnackBar("Cupom inválido!", Color.fromARGB(220, 230, 0, 0));
+    }
+  }
+
+  void showSnackBar(String text, Color color) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(
+        text,
+        style: Theme.of(context).textTheme.display1.copyWith(fontSize: 20),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    ));
   }
 }
