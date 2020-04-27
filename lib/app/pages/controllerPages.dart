@@ -11,30 +11,18 @@ class ControllerPage extends StatefulWidget {
 
 class _ControllerPageState extends State<ControllerPage> {
   final pageController = PageController();
+  final CartButton cartButton = CartButton();
 
   @override
   Widget build(BuildContext context) {
+    final MyDrawer drawer = MyDrawer(pageController);
+
     return PageView(
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Scaffold(
-          floatingActionButton: CartButton(),
-          body: Home(),
-          drawer: MyDrawer(pageController),
-        ),
-        Scaffold(
-          floatingActionButton: CartButton(),
-          appBar: AppBar(
-            title: Text(
-              "Produtos",
-              style: Theme.of(context).textTheme.subtitle,
-            ),
-            centerTitle: true,
-          ),
-          drawer: MyDrawer(pageController),
-          body: Categories(),
-        ),
+        Home(drawer, cartButton),
+        Categories(drawer, cartButton),
       ],
     );
   }
