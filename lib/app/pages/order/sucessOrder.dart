@@ -7,7 +7,7 @@ class SucessOrder extends StatelessWidget {
   SucessOrder(this.orderUid);
 
   void countTime(BuildContext context) async {
-    Future.delayed(Duration(seconds: 5)).then((_) {
+    Future.delayed(Duration(seconds: 4)).then((_) {
       Navigator.pop(context);
     });
   }

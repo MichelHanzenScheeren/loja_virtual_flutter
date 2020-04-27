@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/cartProduct.dart';
 import 'package:lojavirtualflutter/app/models/order.dart';
+import 'package:lojavirtualflutter/app/models/orderProduct.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 
 class CartController {
@@ -155,7 +156,9 @@ class CartController {
       subtotal: subTotal,
       discount: discount,
       shipping: shipping,
-      cartProducts: cartProducts,
+      orderProducts: cartProducts.map((doc) {
+        return OrderProduct.fromCartProduct(doc);
+      }).toList(),
       status: 1,
     );
   }

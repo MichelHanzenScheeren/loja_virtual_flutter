@@ -30,7 +30,6 @@ class CartProduct {
         "productUid": productUid,
         "categoryUid": categoryUid,
         "quantity": quantity,
-        "color": color,
-        //"product": product.toResumeMap()
+        "color": color
       };
 }
