@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/pages/drawer/myDrawer.dart';
 import 'package:lojavirtualflutter/app/pages/home/home.dart';
+import 'package:lojavirtualflutter/app/pages/order/orders.dart';
 import 'package:lojavirtualflutter/app/pages/products/categories.dart';
 import 'package:lojavirtualflutter/app/widgets/cartButton.dart';
 
@@ -23,6 +24,8 @@ class _ControllerPageState extends State<ControllerPage> {
       children: <Widget>[
         Home(drawer, cartButton),
         Categories(drawer, cartButton),
+        Container(color: Colors.red),
+        Orders(drawer, cartButton),
       ],
     );
   }

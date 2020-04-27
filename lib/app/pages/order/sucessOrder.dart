@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
-import 'package:lojavirtualflutter/app/pages/order/orders.dart';
-import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
+import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 
 class SucessOrder extends StatelessWidget {
   final String orderUid;
   SucessOrder(this.orderUid);
 
+  void countTime(BuildContext context) async {
+    Future.delayed(Duration(seconds: 5)).then((_) {
+      Navigator.pop(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    countTime(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(30),
@@ -34,18 +40,22 @@ class SucessOrder extends StatelessWidget {
             Text(
               "Código: $orderUid",
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle
-                  .copyWith(fontSize: 18, color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.subtitle.copyWith(
+                    fontSize: 18,
+                    color: Colors.grey[600],
+                  ),
             ),
-            SizedBox(height: 25),
-            MyOkButton("Ver meus pedidos", Theme.of(context).textTheme.body1,
-                () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Orders()),
-              );
-            }),
+            SizedBox(height: 70),
+            WaitingWidget(height: 40, width: 40),
+            SizedBox(height: 15),
+            Text(
+              "Aguarde...",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle.copyWith(
+                    fontSize: 15,
+                    color: Colors.grey[400],
+                  ),
+            ),
           ],
         ),
       ),

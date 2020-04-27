@@ -139,8 +139,8 @@ class CartController {
 
     await Database.instance.saveOrder(order).then((orderUid) {
       Database.instance.clearCart(currentUser.uid);
-      cartProducts.clear();
-      coupon = null;
+      if (cartProducts != null) cartProducts.clear();
+      if (coupon != null) coupon.clear();
       onSucess(orderUid);
       setLoading(false);
     }).catchError((error) {
