@@ -22,9 +22,9 @@ class DetailsCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         child: ScopedModelDescendant<User>(
           builder: (context, widget, model) {
-            double subTotal = model.getSubtotalOfCart();
-            double discount = model.getDiscountOfCart(subTotal);
-            double shipping = model.getShippingOfCart();
+            double subTotal = model.cart.getSubtotalOfCart();
+            double discount = model.cart.getDiscountOfCart(subTotal);
+            double shipping = model.cart.getShippingOfCart();
 
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,

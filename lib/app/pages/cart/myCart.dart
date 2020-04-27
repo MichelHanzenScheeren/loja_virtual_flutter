@@ -29,7 +29,7 @@ class _MyCartState extends State<MyCart> {
             return notLogged();
           } else if (model.isLoading) {
             return WaitingWidget();
-          } else if (model.cartProductsCount() == 0) {
+          } else if (model.cart.cartProductsCount() == 0) {
             return cartEmpty();
           } else {
             return buildMyCart(model);
@@ -58,7 +58,7 @@ class _MyCartState extends State<MyCart> {
   }
 
   Widget cartProductsCount() {
-    int quantity = User.of(context).cartProductsCount();
+    int quantity = User.of(context).cart.cartProductsCount();
     return Text(
       "$quantity ${quantity == 1 ? "Item" : "Itens"}",
       style: Theme.of(context).textTheme.body1,
@@ -137,7 +137,7 @@ class _MyCartState extends State<MyCart> {
     return ListView(
       children: <Widget>[
         Column(
-          children: model.cartProducts.map((item) {
+          children: model.cart.cartProducts.map((item) {
             return CartItem(item);
           }).toList(),
         ),
@@ -150,7 +150,7 @@ class _MyCartState extends State<MyCart> {
   }
 
   void submitCoupom(String text) async {
-    if (await User.of(context).submitCoupom(text)) {
+    if (await User.of(context).cart.submitCoupom(text)) {
       showSnackBar("Cupom aplicado!", Color.fromARGB(220, 21, 152, 21));
     } else {
       showSnackBar("Cupom inválido!", Color.fromARGB(220, 230, 0, 0));

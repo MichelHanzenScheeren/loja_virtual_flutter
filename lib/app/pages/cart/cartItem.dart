@@ -15,7 +15,7 @@ class CartItem extends StatelessWidget {
       color: Colors.transparent,
       child: cartProduct.product == null
           ? FutureBuilder(
-              future: User.of(context).getProductById(cartProduct),
+              future: User.of(context).cart.getProductById(cartProduct),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return SizedBox(
@@ -87,6 +87,7 @@ class CartItem extends StatelessWidget {
                           icon: Icon(Icons.remove),
                           onPressed: cartProduct.quantity > 1
                               ? () => User.of(context)
+                                  .cart
                                   .modifyCartProductQuantity(-1, cartProduct)
                               : null,
                         ),
@@ -94,6 +95,7 @@ class CartItem extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.add),
                           onPressed: () => User.of(context)
+                              .cart
                               .modifyCartProductQuantity(1, cartProduct),
                         ),
                         Expanded(
@@ -102,7 +104,9 @@ class CartItem extends StatelessWidget {
                             child: IconButton(
                               icon: Icon(Icons.delete),
                               onPressed: () {
-                                User.of(context).removeFromCart(cartProduct);
+                                User.of(context)
+                                    .cart
+                                    .removeFromCart(cartProduct);
                               },
                             ),
                           ),

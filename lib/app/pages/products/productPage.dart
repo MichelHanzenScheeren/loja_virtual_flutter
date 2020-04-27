@@ -175,7 +175,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void addToCart(User model) {
-    model.addToCart(
+    model.cart.addToCart(
       product: product,
       selectedColor: selectedColor,
       onSucess: sucess,

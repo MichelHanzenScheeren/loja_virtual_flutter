@@ -33,15 +33,15 @@ class DiscountCard extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                hintText: User.of(context).coupon == null
+                hintText: User.of(context).cart.coupon == null
                     ? "Digite seu cupom:"
                     : null,
                 border: textFieldBorder,
                 enabledBorder: textFieldBorder,
               ),
-              initialValue: User.of(context).coupon == null
+              initialValue: User.of(context).cart.coupon == null
                   ? null
-                  : User.of(context).coupon["title"],
+                  : User.of(context).cart.coupon["title"],
               onFieldSubmitted: submitDiscount,
             ),
           ),
