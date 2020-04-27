@@ -17,7 +17,7 @@ class CartController {
     cartProducts = await Database.instance.getCartProducts(userUid);
   }
 
-  int cartProductsCount() {
+  int productsCount() {
     if (cartProducts == null) {
       return 0;
     } else {

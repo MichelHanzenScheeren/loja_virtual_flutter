@@ -30,7 +30,7 @@ class CartButton extends StatelessWidget {
                   padding: EdgeInsets.only(right: 10, bottom: 8),
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    "${model.cart.cartProductsCount()}",
+                    "${model.cartProductsCount()}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).iconTheme.color,

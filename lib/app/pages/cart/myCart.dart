@@ -29,7 +29,7 @@ class _MyCartState extends State<MyCart> {
             return notLogged();
           } else if (model.isLoading) {
             return WaitingWidget();
-          } else if (model.cart.cartProductsCount() == 0) {
+          } else if (model.cartProductsCount() == 0) {
             return cartEmpty();
           } else {
             return buildMyCart(model);
@@ -58,7 +58,7 @@ class _MyCartState extends State<MyCart> {
   }
 
   Widget cartProductsCount() {
-    int quantity = User.of(context).cart.cartProductsCount();
+    int quantity = User.of(context).cartProductsCount();
     return Text(
       "$quantity ${quantity == 1 ? "Item" : "Itens"}",
       style: Theme.of(context).textTheme.body1,

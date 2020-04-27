@@ -15,9 +15,9 @@ class User extends Model {
   static User of(BuildContext context) => ScopedModel.of<User>(context);
 
   @override
-  void addListener(listener) {
+  void addListener(listener) async {
     super.addListener(listener);
-    _loadCurrentUser();
+    await _loadCurrentUser();
   }
 
   Future _loadCurrentUser() async {
@@ -110,5 +110,13 @@ class User extends Model {
       setLoading(false);
       onFail(error);
     });
+  }
+
+  int cartProductsCount() {
+    if (cart == null) {
+      return 0;
+    } else {
+      return cart.productsCount();
+    }
   }
 }
