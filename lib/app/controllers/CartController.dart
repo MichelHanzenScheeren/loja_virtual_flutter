@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/cartProduct.dart';
+import 'package:lojavirtualflutter/app/models/order.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 
 class CartController {
@@ -112,14 +113,50 @@ class CartController {
     return subTotal;
   }
 
-  double getDiscountOfCart(double subTotal) {
+  double getDiscountOfCart() {
     if (coupon != null) {
-      return subTotal * coupon["percent"] / 100;
+      return getSubtotalOfCart() * coupon["percent"] / 100;
     } else
       return 0;
   }
 
   double getShippingOfCart() {
     return 0;
+  }
+
+  Future finishOrder({
+    @required Function onSucess,
+    @required Function onFail,
+  }) async {
+    if (cartProducts.length == 0) onFail();
+
+    setLoading(true);
+    Order order = createOrder(
+      getSubtotalOfCart(),
+      getDiscountOfCart(),
+      getShippingOfCart(),
+    );
+
+    await Database.instance.saveOrder(order).then((_) {
+      Database.instance.clearCart(currentUser.uid);
+      cartProducts = null;
+      coupon = null;
+      onSucess();
+      setLoading(false);
+    }).catchError((error) {
+      onFail();
+      setLoading(false);
+    });
+  }
+
+  Order createOrder(double subTotal, double discount, double shipping) {
+    return Order(
+      userUid: currentUser.uid,
+      subtotal: subTotal,
+      discount: discount,
+      shipping: shipping,
+      cartProducts: cartProducts,
+      status: 1,
+    );
   }
 }

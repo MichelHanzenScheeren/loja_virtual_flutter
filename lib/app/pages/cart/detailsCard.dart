@@ -23,7 +23,7 @@ class DetailsCard extends StatelessWidget {
         child: ScopedModelDescendant<User>(
           builder: (context, widget, model) {
             double subTotal = model.cart.getSubtotalOfCart();
-            double discount = model.cart.getDiscountOfCart(subTotal);
+            double discount = model.cart.getDiscountOfCart();
             double shipping = model.cart.getShippingOfCart();
 
             return Column(

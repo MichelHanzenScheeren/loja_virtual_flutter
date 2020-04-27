@@ -168,5 +168,25 @@ class _MyCartState extends State<MyCart> {
     ));
   }
 
-  void finishOrder() {}
+  void finishOrder() {
+    if (User.of(context).cart == null) {
+      String message = "Não é possível finalizar o pedido no momento!";
+      showSnackBar(message, Color.fromARGB(220, 230, 0, 0));
+    } else {
+      User.of(context).cart.finishOrder(
+            onSucess: onSucessFinishOrder,
+            onFail: onFailFinishOrder,
+          );
+    }
+  }
+
+  void onSucessFinishOrder() {
+    String message = "Pedido Finalizado!";
+    showSnackBar(message, Color.fromARGB(220, 21, 152, 21));
+  }
+
+  void onFailFinishOrder() {
+    String message = "Ocorreu um erro durante a finalização do pedido!";
+    showSnackBar(message, Color.fromARGB(220, 230, 0, 0));
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lojavirtualflutter/app/models/cartProduct.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
+import 'package:lojavirtualflutter/app/models/order.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
 
 class Database {
@@ -111,5 +112,30 @@ class Database {
     } else {
       return null;
     }
+  }
+
+  Future saveOrder(Order order) async {
+    DocumentReference reference =
+        await Firestore.instance.collection("orders").add(order.toMap());
+
+    await Firestore.instance
+        .collection("users")
+        .document(order.userUid)
+        .collection("orders")
+        .document(reference.documentID)
+        .setData({"orderUid": reference.documentID});
+  }
+
+  void clearCart(String userUid) async {
+    CollectionReference reference = Firestore.instance
+        .collection("users")
+        .document(userUid)
+        .collection("cart");
+
+    reference.getDocuments().then((docs) {
+      docs.documents.forEach((doc) {
+        reference.document(doc.documentID).delete();
+      });
+    });
   }
 }
