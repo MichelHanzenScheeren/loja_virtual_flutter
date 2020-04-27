@@ -5,6 +5,7 @@ import 'package:lojavirtualflutter/app/pages/cart/detailsCard.dart';
 import 'package:lojavirtualflutter/app/pages/cart/discountCard.dart';
 import 'package:lojavirtualflutter/app/pages/cart/shippingCard.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
+import 'package:lojavirtualflutter/app/pages/order/sucessOrder.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
@@ -180,9 +181,10 @@ class _MyCartState extends State<MyCart> {
     }
   }
 
-  void onSucessFinishOrder() {
-    String message = "Pedido Finalizado!";
-    showSnackBar(message, Color.fromARGB(220, 21, 152, 21));
+  void onSucessFinishOrder(String orderUid) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => SucessOrder(orderUid),
+    ));
   }
 
   void onFailFinishOrder() {

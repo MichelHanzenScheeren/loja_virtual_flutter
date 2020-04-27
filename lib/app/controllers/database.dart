@@ -114,7 +114,7 @@ class Database {
     }
   }
 
-  Future saveOrder(Order order) async {
+  Future<String> saveOrder(Order order) async {
     DocumentReference reference =
         await Firestore.instance.collection("orders").add(order.toMap());
 
@@ -124,6 +124,8 @@ class Database {
         .collection("orders")
         .document(reference.documentID)
         .setData({"orderUid": reference.documentID});
+
+    return reference.documentID;
   }
 
   void clearCart(String userUid) async {

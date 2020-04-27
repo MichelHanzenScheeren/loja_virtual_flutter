@@ -128,7 +128,7 @@ class CartController {
     @required Function onSucess,
     @required Function onFail,
   }) async {
-    if (cartProducts.length == 0) onFail();
+    if (cartProducts == null || cartProducts.length == 0) onFail();
 
     setLoading(true);
     Order order = createOrder(
@@ -137,11 +137,11 @@ class CartController {
       getShippingOfCart(),
     );
 
-    await Database.instance.saveOrder(order).then((_) {
+    await Database.instance.saveOrder(order).then((orderUid) {
       Database.instance.clearCart(currentUser.uid);
-      cartProducts = null;
+      cartProducts.clear();
       coupon = null;
-      onSucess();
+      onSucess(orderUid);
       setLoading(false);
     }).catchError((error) {
       onFail();
