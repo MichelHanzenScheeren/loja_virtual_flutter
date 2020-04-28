@@ -100,26 +100,12 @@ class _MyCartState extends State<MyCart> {
         children: <Widget>[
           Icon(Icons.add_shopping_cart, size: 120),
           SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Carrinho vazio!",
-                textAlign: TextAlign.center,
-                style:
-                    Theme.of(context).textTheme.subtitle.copyWith(fontSize: 25),
-              ),
-              SizedBox(width: 10),
-              Icon(Icons.sentiment_dissatisfied, size: 28)
-            ],
-          ),
-          SizedBox(height: 5),
           Text(
-            "Adicione o primeiro produto:",
+            "Carrinho vazio...\nAdicione o primeiro produto:",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle.copyWith(fontSize: 25),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 25),
           MyOkButton(
             "Ver produtos",
             Theme.of(context).textTheme.body1,

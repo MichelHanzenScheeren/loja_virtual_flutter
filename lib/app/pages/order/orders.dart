@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/controllerPages.dart';
+import 'package:lojavirtualflutter/app/pages/order/orderItem.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/myOkButton.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
@@ -23,10 +25,8 @@ class Orders extends StatelessWidget {
             return notLogged(context);
           } else if (model.isLoading) {
             return WaitingWidget();
-          } else if (model.cartProductsCount() == 0) {
-            return ordersEmpty(context);
           } else {
-            return Container(color: Colors.red);
+            return getOrderItems(context, model);
           }
         },
       ),
@@ -68,6 +68,32 @@ class Orders extends StatelessWidget {
     );
   }
 
+  Widget getOrderItems(BuildContext context, User model) {
+    return FutureBuilder<List<String>>(
+      future: Database.instance.getOrdersUids(model.currentUser.uid),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return WaitingWidget();
+        } else {
+          return buildOrderItems(context, model, snapshot.data);
+        }
+      },
+    );
+  }
+
+  Widget buildOrderItems(
+      BuildContext context, User model, List<String> orderItems) {
+    if (orderItems.length == 0) {
+      return ordersEmpty(context);
+    } else {
+      return ListView(
+        children: orderItems.map((doc) {
+          return OrderItem(doc);
+        }).toList(),
+      );
+    }
+  }
+
   Widget ordersEmpty(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(30),
@@ -75,36 +101,20 @@ class Orders extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add_shopping_cart, size: 120),
-          SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Carrinho vazio!",
-                textAlign: TextAlign.center,
-                style:
-                    Theme.of(context).textTheme.subtitle.copyWith(fontSize: 25),
-              ),
-              SizedBox(width: 10),
-              Icon(Icons.sentiment_dissatisfied, size: 28)
-            ],
-          ),
+          Icon(Icons.playlist_add, size: 100),
           SizedBox(height: 5),
           Text(
-            "Adicione o primeiro produto:",
+            "Poxa, parece que você ainda não fez nenhum pedido...",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle.copyWith(fontSize: 25),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 35),
           MyOkButton(
             "Ver produtos",
             Theme.of(context).textTheme.body1,
-            () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ControllerPage()),
-              );
-            },
+            () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ControllerPage(),
+            )),
           ),
         ],
       ),

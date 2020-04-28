@@ -23,6 +23,23 @@ class Order {
     orderTime = Timestamp.now();
   }
 
+  Order.fromMap(
+    String uid,
+    Map<String, dynamic> data,
+    List orderItems,
+  ) {
+    orderUid = uid;
+    userUid = data["userUid"];
+    subtotal = data["subtotal"];
+    shipping = data["shipping"];
+    discount = data["discount"];
+    orderProducts = orderItems.map((doc) {
+      return OrderProduct.fromMap(doc);
+    }).toList();
+    status = data["status"];
+    orderTime = data["orderTime"];
+  }
+
   Map<String, dynamic> toMap() => {
         "userUid": userUid,
         "subtotal": subtotal,

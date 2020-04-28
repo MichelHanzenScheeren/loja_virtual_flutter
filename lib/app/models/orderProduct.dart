@@ -18,6 +18,15 @@ class OrderProduct {
     title = cartProduct.product.title;
   }
 
+  OrderProduct.fromMap(Map<dynamic, dynamic> data) {
+    productUid = data["productUid"];
+    categoryUid = data["categoryUid"];
+    quantity = data["quantity"];
+    color = data["color"];
+    price = data["price"];
+    title = data["title"];
+  }
+
   Map<String, dynamic> toMap() => {
         "productUid": productUid,
         "categoryUid": categoryUid,

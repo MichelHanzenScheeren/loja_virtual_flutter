@@ -140,4 +140,28 @@ class Database {
       });
     });
   }
+
+  Future<List<String>> getOrdersUids(String userUid) async {
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(userUid)
+        .collection("orders")
+        .getDocuments();
+
+    if (query.documents.length > 0) {
+      return query.documents.map((doc) {
+        String text = doc.data["orderUid"];
+        return text;
+      }).toList();
+    } else {
+      return List<String>();
+    }
+  }
+
+  Stream<DocumentSnapshot> getOrder(String orderUid) {
+    return Firestore.instance
+        .collection("orders")
+        .document(orderUid)
+        .snapshots();
+  }
 }
