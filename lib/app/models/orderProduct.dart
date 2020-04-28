@@ -8,6 +8,7 @@ class OrderProduct {
   String color;
   double price;
   String title;
+  String photo;
 
   OrderProduct.fromCartProduct(CartProduct cartProduct) {
     productUid = cartProduct.productUid;
@@ -16,6 +17,7 @@ class OrderProduct {
     color = cartProduct.color;
     price = cartProduct.product.price;
     title = cartProduct.product.title;
+    photo = cartProduct.product.images[0];
   }
 
   OrderProduct.fromMap(Map<dynamic, dynamic> data) {
@@ -25,6 +27,7 @@ class OrderProduct {
     color = data["color"];
     price = data["price"];
     title = data["title"];
+    photo = data["photo"];
   }
 
   Map<String, dynamic> toMap() => {
@@ -33,6 +36,7 @@ class OrderProduct {
         "quantity": quantity,
         "color": color,
         "price": price,
-        "title": title
+        "title": title,
+        "photo": photo
       };
 }

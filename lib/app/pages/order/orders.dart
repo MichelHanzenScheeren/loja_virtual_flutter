@@ -87,7 +87,7 @@ class Orders extends StatelessWidget {
       return ordersEmpty(context);
     } else {
       return ListView(
-        children: orderItems.map((doc) {
+        children: orderItems.reversed.map((doc) {
           return OrderItem(doc);
         }).toList(),
       );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lojavirtualflutter/app/models/orderProduct.dart';
+import 'package:date_format/date_format.dart';
 
 class Order {
   String orderUid;
@@ -49,4 +50,9 @@ class Order {
         "status": status,
         "orderTime": orderTime
       };
+
+  String getTime() {
+    var formatter = [dd, '/', mm, '/', yyyy, ' ', HH, ':', nn, 'hrs'];
+    return "${formatDate(orderTime.toDate(), formatter)}";
+  }
 }

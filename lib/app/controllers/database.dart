@@ -123,7 +123,10 @@ class Database {
         .document(order.userUid)
         .collection("orders")
         .document(reference.documentID)
-        .setData({"orderUid": reference.documentID});
+        .setData({
+      "orderUid": reference.documentID,
+      "orderTime": Timestamp.now(),
+    });
 
     return reference.documentID;
   }
@@ -146,6 +149,7 @@ class Database {
         .collection("users")
         .document(userUid)
         .collection("orders")
+        .orderBy("orderTime")
         .getDocuments();
 
     if (query.documents.length > 0) {

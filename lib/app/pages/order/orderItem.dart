@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/order.dart';
-import 'package:lojavirtualflutter/app/models/orderProduct.dart';
+import 'package:lojavirtualflutter/app/pages/order/mainCard.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 
 class OrderItem extends StatelessWidget {
@@ -12,8 +12,9 @@ class OrderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
       color: Colors.transparent,
+      elevation: 1,
       child: StreamBuilder<DocumentSnapshot>(
         stream: Database.instance.getOrder(itemUid),
         builder: (context, snapshot) {
@@ -23,8 +24,7 @@ class OrderItem extends StatelessWidget {
               child: WaitingWidget(height: 40, width: 40),
             );
           } else {
-            Order order = getOrder(snapshot.data);
-            return Text("oi");
+            return MainCard(getOrder(snapshot.data));
           }
         },
       ),
