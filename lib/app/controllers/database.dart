@@ -23,7 +23,7 @@ class Database {
     return Client.fromMap(uid, data.data);
   }
 
-  Future<List> getHomeProducts() async {
+  Future<List<DocumentSnapshot>> getHomeProducts() async {
     QuerySnapshot query = await Firestore.instance
         .collection("home")
         .orderBy("pos")

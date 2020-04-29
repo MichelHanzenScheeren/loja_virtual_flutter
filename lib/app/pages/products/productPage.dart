@@ -57,6 +57,7 @@ class _ProductPageState extends State<ProductPage> {
                 dotBgColor: Colors.transparent,
                 dotColor: primary,
                 autoplay: false,
+                boxFit: BoxFit.fitHeight,
               ),
             ),
           ),
