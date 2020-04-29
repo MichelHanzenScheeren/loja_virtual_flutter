@@ -3,6 +3,7 @@ import 'package:lojavirtualflutter/app/pages/drawer/myDrawer.dart';
 import 'package:lojavirtualflutter/app/pages/home/home.dart';
 import 'package:lojavirtualflutter/app/pages/order/orders.dart';
 import 'package:lojavirtualflutter/app/pages/products/categories.dart';
+import 'package:lojavirtualflutter/app/pages/stores/stores.dart';
 import 'package:lojavirtualflutter/app/widgets/cartButton.dart';
 
 class ControllerPage extends StatefulWidget {
@@ -24,7 +25,7 @@ class _ControllerPageState extends State<ControllerPage> {
       children: <Widget>[
         Home(drawer, cartButton),
         Categories(drawer, cartButton),
-        Container(color: Colors.red),
+        Stores(drawer, cartButton),
         Orders(drawer, cartButton),
       ],
     );

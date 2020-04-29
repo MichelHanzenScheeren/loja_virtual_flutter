@@ -3,6 +3,7 @@ import 'package:lojavirtualflutter/app/models/cartProduct.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
 import 'package:lojavirtualflutter/app/models/order.dart';
 import 'package:lojavirtualflutter/app/models/product.dart';
+import 'package:lojavirtualflutter/app/models/store.dart';
 
 class Database {
   static final Database instance = Database.internal();
@@ -168,5 +169,13 @@ class Database {
 
     return Order.fromMap(
         document.documentID, document.data, document.data["orderProducts"]);
+  }
+
+  Future<List<Store>> getStores() async {
+    QuerySnapshot query =
+        await Firestore.instance.collection("stores").getDocuments();
+    return query.documents.map((doc) {
+      return Store.fromMap(doc.data);
+    }).toList();
   }
 }
