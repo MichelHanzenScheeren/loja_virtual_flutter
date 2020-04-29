@@ -73,7 +73,7 @@ class User extends Model {
         .then((user) async {
       currentUser = user;
       await _loadCurrentUser();
-      await onSucess(userData.name);
+      await onSucess();
       setLoading(false);
     }).catchError(
       (error) {

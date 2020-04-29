@@ -88,7 +88,12 @@ class Orders extends StatelessWidget {
     } else {
       return ListView(
         children: orderItems.reversed.map((doc) {
-          return OrderItem(doc);
+          return Column(
+            children: <Widget>[
+              OrderItem(doc),
+              SizedBox(height: 5),
+            ],
+          );
         }).toList(),
       );
     }

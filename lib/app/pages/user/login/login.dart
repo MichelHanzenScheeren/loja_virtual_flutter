@@ -35,10 +35,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future sucess(String name) async {
-    String message = "Você entrou como $name!";
-    showSnackBar(Color.fromARGB(220, 21, 152, 21), message, 2);
-    await Future.delayed(Duration(seconds: 2));
+  void sucess() async {
     Navigator.of(context).pop();
   }
 
