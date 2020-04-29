@@ -162,10 +162,11 @@ class Database {
     }
   }
 
-  Stream<DocumentSnapshot> getOrder(String orderUid) {
-    return Firestore.instance
-        .collection("orders")
-        .document(orderUid)
-        .snapshots();
+  Future<Order> getOrder(String orderUid) async {
+    DocumentSnapshot document =
+        await Firestore.instance.collection("orders").document(orderUid).get();
+
+    return Order.fromMap(
+        document.documentID, document.data, document.data["orderProducts"]);
   }
 }

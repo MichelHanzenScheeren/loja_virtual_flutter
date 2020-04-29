@@ -3,6 +3,7 @@ import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/drawer/drawerItem.dart';
 import 'package:lojavirtualflutter/app/pages/user/login/login.dart';
 import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
+import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -72,6 +73,7 @@ class MyDrawer extends StatelessWidget {
   }
 
   Widget userRegion(User model, BuildContext context) {
+    if (model.isLoading) return WaitingWidget(width: 50, height: 50);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
