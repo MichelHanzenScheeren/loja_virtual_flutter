@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:lojavirtualflutter/app/models/product.dart';
 import 'package:lojavirtualflutter/app/pages/products/productPage.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
@@ -47,10 +46,7 @@ class Home extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return SliverToBoxAdapter(
-                        child: WaitingWidget(
-                          width: 100,
-                          height: 100,
-                        ),
+                        child: WaitingWidget(),
                       );
                     } else {
                       return SliverStaggeredGrid.count(
@@ -126,10 +122,23 @@ class Home extends StatelessWidget {
   }
 
   Future openPage(BuildContext context, Map<String, dynamic> data) async {
-    Product product = await Database.instance
-        .getProductById(data["categoryUid"], data["productUid"]);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return ProductPage(product);
-    }));
+    await Database.instance
+        .getProductById(data["categoryUid"], data["productUid"])
+        .then((product) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) {
+          return ProductPage(product);
+        }),
+      );
+    }).catchError((error) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Não foi possível abrir a página do produto no momento",
+          style: Theme.of(context).textTheme.display1,
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.red[800],
+      ));
+    });
   }
 }
