@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lojavirtualflutter/app/controllers/user.dart';
 import 'package:lojavirtualflutter/app/pages/products/productPage.dart';
+import 'package:lojavirtualflutter/app/widgets/noInternetConnection.dart';
 import 'package:lojavirtualflutter/app/widgets/waitingWidget.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/widgets/degradeBack.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class Home extends StatelessWidget {
   final drawer;
   final cartButton;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   Home(this.drawer, this.cartButton);
 
   final List<Color> colors = [
@@ -19,6 +23,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       floatingActionButton: cartButton,
       drawer: drawer,
       body: Stack(
@@ -41,52 +46,62 @@ class Home extends StatelessWidget {
                     centerTitle: true,
                   ),
                 ),
-                FutureBuilder<List<DocumentSnapshot>>(
-                  future: Database.instance.getHomeProducts(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return SliverToBoxAdapter(
-                        child: WaitingWidget(),
-                      );
-                    } else {
-                      return SliverStaggeredGrid.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 1,
-                        crossAxisSpacing: 1,
-                        staggeredTiles: snapshot.data.map((document) {
-                          return StaggeredTile.count(
-                              document.data["x"], document.data["y"]);
-                        }).toList(),
-                        children: snapshot.data.map((document) {
-                          return Container(
-                            padding: EdgeInsets.all(8),
-                            child: GestureDetector(
-                              onTap: () async {
-                                await openPage(context, document.data);
-                              },
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  Image.network(
-                                    document.data["image"],
-                                    fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return WaitingWidget(
-                                        width: 50,
-                                        height: 50,
-                                      );
-                                    },
-                                  ),
-                                  buildDescItem(context, document.data),
-                                ],
-                              ),
+                ScopedModelDescendant<User>(
+                  builder: (context, widget, model) {
+                    return FutureBuilder<List<DocumentSnapshot>>(
+                      future: Database.instance.getHomeProducts(),
+                      builder: (context, snapshot) {
+                        if (!model.checkConnection())
+                          return SliverToBoxAdapter(
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(height: 150),
+                                NoInternetConnection()
+                              ],
                             ),
                           );
-                        }).toList(),
-                      );
-                    }
+                        else if (!snapshot.hasData)
+                          return SliverToBoxAdapter(child: WaitingWidget());
+                        return SliverStaggeredGrid.count(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 1,
+                          crossAxisSpacing: 1,
+                          staggeredTiles: snapshot.data.map((document) {
+                            return StaggeredTile.count(
+                                document.data["x"], document.data["y"]);
+                          }).toList(),
+                          children: snapshot.data.map((document) {
+                            return Container(
+                              padding: EdgeInsets.all(8),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await openPage(context, document.data);
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Image.network(
+                                      document.data["image"],
+                                      fit: BoxFit.cover,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return WaitingWidget(
+                                          width: 50,
+                                          height: 50,
+                                        );
+                                      },
+                                    ),
+                                    buildDescItem(context, document.data),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      },
+                    );
                   },
                 ),
               ],

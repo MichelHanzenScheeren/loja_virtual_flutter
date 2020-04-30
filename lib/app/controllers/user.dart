@@ -4,6 +4,7 @@ import 'package:lojavirtualflutter/app/controllers/CartController.dart';
 import 'package:lojavirtualflutter/app/controllers/database.dart';
 import 'package:lojavirtualflutter/app/models/client.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:connectivity/connectivity.dart';
 
 class User extends Model {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -12,12 +13,32 @@ class User extends Model {
   CartController cart;
   bool isLoading = false;
 
+  Connectivity connectivity = Connectivity();
+  ConnectivityResult internetStatus;
+
   static User of(BuildContext context) => ScopedModel.of<User>(context);
 
   @override
   void addListener(listener) async {
     super.addListener(listener);
+    initInternetConnection();
     await _loadCurrentUser();
+  }
+
+  void initInternetConnection() async {
+    internetStatus = await connectivity.checkConnectivity();
+    notifyListeners();
+    connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      internetStatus = result;
+      notifyListeners();
+    });
+  }
+
+  bool checkConnection() {
+    if (internetStatus == null || internetStatus == ConnectivityResult.none)
+      return false;
+    else
+      return true;
   }
 
   Future _loadCurrentUser() async {
