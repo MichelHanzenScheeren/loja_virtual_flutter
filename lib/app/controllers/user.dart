@@ -21,24 +21,19 @@ class User extends Model {
   @override
   void addListener(listener) async {
     super.addListener(listener);
-    initInternetConnection();
+    await initInternetConnection();
     await _loadCurrentUser();
   }
 
-  void initInternetConnection() async {
+  Future initInternetConnection() async {
+    setLoading(true);
     internetStatus = await connectivity.checkConnectivity();
     notifyListeners();
     connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
       internetStatus = result;
       notifyListeners();
     });
-  }
-
-  bool checkConnection() {
-    if (internetStatus == null || internetStatus == ConnectivityResult.none)
-      return false;
-    else
-      return true;
+    setLoading(false);
   }
 
   Future _loadCurrentUser() async {
@@ -57,6 +52,13 @@ class User extends Model {
   void setLoading(bool change) {
     isLoading = change;
     notifyListeners();
+  }
+
+  bool checkConnection() {
+    if (internetStatus == null || internetStatus == ConnectivityResult.none)
+      return false;
+    else
+      return true;
   }
 
   void createAccount({
